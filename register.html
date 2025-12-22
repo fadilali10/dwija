@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>D-ROBOTICS | Register</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- Google Font -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- Icons -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+
+<!-- Supabase -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+:root{
+  --navy:#081a3a;
+  --navy-light:#0f2c5c;
+}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Poppins',sans-serif;
+}
+
+body{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:
+    linear-gradient(rgba(8,26,58,0.9), rgba(8,26,58,0.9)),
+    url("https://png.pngtree.com/background/20210710/original/pngtree-smart-robot-arm-advertising-background-picture-image_969305.jpg");
+  background-size:cover;
+  background-position:center;
+}
+
+/* HOME ICON */
+.home-btn{
+  position:absolute;
+  top:25px;
+  left:25px;
+  background:white;
+  color:var(--navy);
+  padding:10px 14px;
+  border-radius:50%;
+  text-decoration:none;
+  font-size:18px;
+  box-shadow:0 10px 25px rgba(0,0,0,0.4);
+}
+
+/* REGISTER CARD */
+.register-card{
+  width:100%;
+  max-width:480px;
+  background:white;
+  padding:40px;
+  border-radius:22px;
+  box-shadow:0 30px 70px rgba(0,0,0,.45);
+  text-align:center;
+  color:var(--navy);
+}
+
+.register-card img{
+  height:70px;
+  margin-bottom:15px;
+}
+
+.register-card h2{
+  margin-bottom:25px;
+}
+
+.register-card input{
+  width:100%;
+  padding:13px;
+  margin-bottom:14px;
+  border-radius:12px;
+  border:1px solid #ccd9ff;
+  font-size:15px;
+}
+
+.register-card button{
+  width:100%;
+  padding:13px;
+  background:var(--navy);
+  border:none;
+  border-radius:30px;
+  color:white;
+  font-size:16px;
+  cursor:pointer;
+  font-weight:600;
+}
+
+.register-card button:disabled{
+  opacity:.6;
+  cursor:not-allowed;
+}
+
+.register-card p{
+  margin-top:15px;
+  font-size:14px;
+}
+</style>
+</head>
+
+<body>
+
+<a href="index.html" class="home-btn">
+  <i class="fas fa-house"></i>
+</a>
+
+<div class="register-card">
+  <img src="image/dwija-logo.png" alt="DWIJA">
+  <h2>Create Account</h2>
+
+  <input type="text" id="name" placeholder="Full Name *">
+  <input type="tel" id="phone" placeholder="Phone Number *">
+  <input type="text" id="aadhaar" placeholder="Aadhaar Number *">
+  <input type="email" id="email" placeholder="Email ID *">
+  <input type="password" id="password" placeholder="Password (min 6 chars) *">
+  <input type="date" id="dob">
+
+  <button id="registerBtn" onclick="registerUser()">Register</button>
+
+  <p>Already have an account? <a href="login.html">Login</a></p>
+</div>
+
+<script>
+/* =========================
+   SUPABASE CONFIG
+========================= */
+const supabase = Supabase.createClient(
+  "https://buhuqdhpnoheqiayucsn.supabase.co",
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ1aHVxZGhwbm9oZXFpYXl1Y3NuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjY0MDYwNjQsImV4cCI6MjA4MTk4MjA2NH0.ClggXGY3GZ71aZJoUtKnXnHwBIaSkdxVIN4FM-Fg4ZM"
+);
+
+/* =========================
+   REGISTER FUNCTION
+========================= */
+async function registerUser(){
+  const btn = document.getElementById("registerBtn");
+  btn.disabled = true;
+
+  const name = document.getElementById("name").value.trim();
+  const phone = document.getElementById("phone").value.trim();
+  const aadhaar = document.getElementById("aadhaar").value.trim();
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value;
+  const dob = document.getElementById("dob").value;
+
+  if(!name || !phone || !aadhaar || !email || !password || !dob){
+    alert("All fields are required");
+    btn.disabled = false;
+    return;
+  }
+
+  if(phone.length !== 10){
+    alert("Enter valid 10-digit phone number");
+    btn.disabled = false;
+    return;
+  }
+
+  if(aadhaar.length !== 12){
+    alert("Aadhaar must be 12 digits");
+    btn.disabled = false;
+    return;
+  }
+
+  if(password.length < 6){
+    alert("Password must be at least 6 characters");
+    btn.disabled = false;
+    return;
+  }
+
+  const { error } = await supabase.auth.signUp({
+    email,
+    password,
+    options: {
+      data: {
+        full_name: name,
+        phone,
+        aadhaar,
+        dob
+      }
+    }
+  });
+
+  if(error){
+    alert(error.message);
+    btn.disabled = false;
+  } else {
+    alert("Registration successful! Please verify your email.");
+    window.location.href = "login.html";
+  }
+}
+</script>
+
+</body>
+</html>

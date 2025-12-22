@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>D-ROBOTICS | Customize Robot</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+:root{
+  --blue:#0a2a66;
+}
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Poppins',sans-serif;
+}
+body{
+  background:
+    linear-gradient(rgba(10,42,102,0.9), rgba(10,42,102,0.9)),
+    url("https://png.pngtree.com/background/20210710/original/pngtree-smart-robot-arm-advertising-background-picture-image_969305.jpg");
+  background-size:cover;
+  background-position:center;
+  background-attachment:fixed;
+  color:white;
+}
+header{
+  background:rgba(10,42,102,0.95);
+}
+.navbar{
+  width:90%;
+  margin:auto;
+  padding:15px 0;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+.logo{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-size:20px;
+  font-weight:600;
+}
+.logo img{height:42px}
+.nav-actions a,.nav-actions button{
+  background:white;
+  color:var(--blue);
+  padding:8px 20px;
+  border-radius:30px;
+  border:none;
+  text-decoration:none;
+  font-weight:600;
+  cursor:pointer;
+}
+.section{
+  padding:90px 0;
+}
+.form-box{
+  max-width:650px;
+  margin:auto;
+  background:white;
+  padding:40px;
+  border-radius:22px;
+  color:#0a2a66;
+  box-shadow:0 30px 70px rgba(0,0,0,.4);
+  transition: all 0.3s ease;
+}
+.form-box h2{
+  text-align:center;
+  margin-bottom:25px;
+}
+.form-box textarea{
+  width:100%;
+  height:85px;
+  padding:14px;
+  margin-bottom:18px;
+  border-radius:14px;
+  border:1px solid #cdd9ff;
+  resize:none;
+}
+.form-box button{
+  width:100%;
+  padding:14px;
+  border:none;
+  border-radius:30px;
+  background:var(--blue);
+  color:white;
+  font-size:16px;
+  font-weight:600;
+  cursor:pointer;
+}
+.thank-you{
+  text-align:center;
+  margin-top:20px;
+  color:green;
+  font-weight:600;
+  font-size:18px;
+}
+footer{
+  margin-top:60px;
+  padding:30px 0;
+  text-align:center;
+  background:#061b40;
+}
+footer p{
+  font-size:14px;
+  color:#dce6ff;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="navbar">
+    <div class="logo">
+      <img src="image/dwija-logo.png">
+      D-ROBOTICS
+    </div>
+    <div class="nav-actions">
+      <a href="index.html">Home</a>
+      <button onclick="logout()">Logout</button>
+    </div>
+  </div>
+</header>
+
+<section class="section">
+  <div class="form-box">
+    <h2>Customize Your Robot</h2>
+
+    <textarea id="what" placeholder="WHAT – What robot do you need?"></textarea>
+    <textarea id="where" placeholder="WHERE – Usage location?"></textarea>
+    <textarea id="when" placeholder="WHEN – Delivery timeline?"></textarea>
+    <textarea id="which" placeholder="WHICH – Type or model?"></textarea>
+    <textarea id="budget" placeholder="HOW MUCH – Budget?"></textarea>
+
+    <button onclick="submitRequest()">Submit Requirement</button>
+
+    <div class="thank-you" id="thankYou" style="display:none;">
+      ✅ Thank you! Your request has been submitted.
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2025 <strong>D-ROBOTICS</strong> by DWIJA</p>
+</footer>
+
+<script>
+/* SUPABASE SETUP */
+const supabase = supabase.createClient(
+  "https://buhuqdhpnoheqiayucsn.supabase.co",
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ1aHVxZGhwbm9oZXFpYXl1Y3NuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjY0MDYwNjQsImV4cCI6MjA4MTk4MjA2NH0.ClggXGY3GZ71aZJoUtKnXnHwBIaSkdxVIN4FM-Fg4ZM"
+);
+
+let user = null;
+
+/* FORCE LOGIN */
+async function checkLogin() {
+  const { data, error } = await supabase.auth.getSession();
+  if(error || !data.session){
+    window.location.href = "login.html";
+    return;
+  }
+  user = data.session.user;
+}
+
+// Run login check immediately
+checkLogin();
+
+/* SUBMIT REQUEST */
+async function submitRequest() {
+  if(!user){
+    alert("Please login first");
+    return;
+  }
+
+  const what = document.getElementById("what").value.trim();
+  const where = document.getElementById("where").value.trim();
+  const when = document.getElementById("when").value.trim();
+  const which = document.getElementById("which").value.trim();
+  const budget = document.getElementById("budget").value.trim();
+
+  if(!what || !where || !when || !which || !budget){
+    alert("Fill all fields");
+    return;
+  }
+
+  const { error } = await supabase.from("robot_requests").insert({
+    user_id: user.id,
+    what,
+    where_use: where,
+    when_need: when,
+    which_type: which,
+    budget
+  });
+
+  if(error){
+    alert(error.message);
+  } else {
+    // Clear form
+    document.querySelectorAll("textarea").forEach(t => t.value = "");
+    // Show thank you message
+    const msg = document.getElementById("thankYou");
+    msg.style.display = "block";
+    setTimeout(() => msg.style.display = "none", 5000);
+  }
+}
+
+/* LOGOUT */
+async function logout(){
+  await supabase.auth.signOut();
+  window.location.href = "login.html";
+}
+</script>
+
+</body>
+</html>

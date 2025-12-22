@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>D-ROBOTICS | Login</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- Google Font -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- Icons -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+
+<!-- Supabase SDK -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+:root{
+  --navy:#081a3a;
+  --navy-light:#0f2c5c;
+}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Poppins',sans-serif;
+}
+
+body{
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:
+    linear-gradient(rgba(8,26,58,0.9), rgba(8,26,58,0.9)),
+    url("https://png.pngtree.com/background/20210710/original/pngtree-smart-robot-arm-advertising-background-picture-image_969305.jpg");
+  background-size:cover;
+  background-position:center;
+}
+
+/* HOME ICON */
+.home-btn{
+  position:absolute;
+  top:25px;
+  left:25px;
+  background:white;
+  color:var(--navy);
+  padding:10px 14px;
+  border-radius:50%;
+  text-decoration:none;
+  font-size:18px;
+  box-shadow:0 10px 25px rgba(0,0,0,0.4);
+}
+
+/* LOGIN CARD */
+.login-card{
+  width:100%;
+  max-width:420px;
+  background:white;
+  padding:40px;
+  border-radius:22px;
+  box-shadow:0 30px 70px rgba(0,0,0,.45);
+  text-align:center;
+  color:var(--navy);
+}
+
+.login-card img{
+  height:70px;
+  margin-bottom:15px;
+}
+
+.login-card h2{
+  margin-bottom:25px;
+}
+
+.login-card input{
+  width:100%;
+  padding:13px;
+  margin-bottom:15px;
+  border-radius:12px;
+  border:1px solid #ccd9ff;
+  font-size:15px;
+}
+
+.login-card button{
+  width:100%;
+  padding:13px;
+  background:var(--navy);
+  color:white;
+  border:none;
+  border-radius:30px;
+  font-size:16px;
+  cursor:pointer;
+  font-weight:600;
+}
+
+.login-card button:disabled{
+  opacity:.6;
+  cursor:not-allowed;
+}
+
+.login-card p{
+  margin-top:15px;
+  font-size:14px;
+}
+</style>
+</head>
+
+<body>
+
+<a href="index.html" class="home-btn">
+  <i class="fas fa-house"></i>
+</a>
+
+<div class="login-card">
+  <img src="image/dwija-logo.png" alt="DWIJA Logo">
+  <h2>User Login</h2>
+
+  <input type="text" id="identifier" placeholder="Email or Phone Number">
+  <input type="password" id="password" placeholder="Password">
+
+  <button id="loginBtn" onclick="loginUser()">Login</button>
+
+  <p>New user? <a href="register.html">Create Account</a></p>
+</div>
+
+<script>
+/* =========================
+   SUPABASE CONFIG
+========================= */
+const supabase = Supabase.createClient(
+  "https://buhuqdhpnoheqiayucsn.supabase.co",
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ1aHVxZGhwbm9oZXFpYXl1Y3NuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjY0MDYwNjQsImV4cCI6MjA4MTk4MjA2NH0.ClggXGY3GZ71aZJoUtKnXnHwBIaSkdxVIN4FM-Fg4ZM"
+);
+
+/* =========================
+   LOGIN FUNCTION
+========================= */
+async function loginUser() {
+  const btn = document.getElementById("loginBtn");
+  btn.disabled = true;
+
+  const identifier = document.getElementById("identifier").value.trim();
+  const password = document.getElementById("password").value;
+
+  if (!identifier || !password) {
+    alert("Please enter Email/Phone and Password");
+    btn.disabled = false;
+    return;
+  }
+
+  let email = identifier;
+
+  /* PHONE LOGIN */
+  if (!identifier.includes("@")) {
+    if (identifier.length !== 10) {
+      alert("Enter valid 10-digit phone number");
+      btn.disabled = false;
+      return;
+    }
+
+    const { data, error } = await supabase
+      .from("profiles")
+      .select("email")
+      .eq("phone", identifier)
+      .single();
+
+    if (error || !data) {
+      alert("Phone number not registered");
+      btn.disabled = false;
+      return;
+    }
+
+    email = data.email;
+  }
+
+  /* EMAIL LOGIN */
+  const { error } = await supabase.auth.signInWithPassword({
+    email,
+    password
+  });
+
+  if (error) {
+    alert(error.message);
+    btn.disabled = false;
+  } else {
+    alert("Login successful!");
+    window.location.href = "index.html";
+  }
+}
+</script>
+
+</body>
+</html>
