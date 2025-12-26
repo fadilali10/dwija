@@ -1,418 +1,288 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <link rel="icon" type="image/png" href="image/dwija-logo.png">
+    <meta charset="UTF-8">
+    <title>DWIJA – Problem Solving Platform</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
 
-<link rel="icon" sizes="192x192" href="image/dwija-logo.png">
+    <style>
+        :root {
+            --navy: #081a3a;
+            --navy-light: #0f2c5c;
+            --white: #ffffff;
+            --accent: #7fb3ff;
+        }
 
-<link rel="apple-touch-icon" href="image/dwija-logo.png">
+        * {
+            margin: 0; padding: 0; box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+            scroll-behavior: smooth;
+        }
 
-<meta property="og:image" content="https://dwija.org/image/dwija-logo.png">
-<meta charset="UTF-8">
-<title>DWIJA – by AKSHAYA</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+        body {
+            background: linear-gradient(rgba(8,26,58,0.96), rgba(8,26,58,0.96)), url("image/rob-img.png");
+            background-size: cover; background-position: center; background-attachment: fixed;
+            color: var(--white); overflow-x: hidden;
+        }
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+        /* ===== NAVIGATION ===== */
+        header {
+            position: fixed; top: 0; width: 100%;
+            background: rgba(8,26,58,0.98); z-index: 1000;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
 
-<style>
-:root{
-  --navy:#081a3a;
-  --navy-light:#0f2c5c;
-  --white:#ffffff;
-  --accent:#7fb3ff;
-}
+        .navbar {
+            width: 90%; max-width: 1200px; margin: auto;
+            display: flex; justify-content: space-between; align-items: center; padding: 15px 0;
+        }
 
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family:'Poppins',sans-serif;
-  scroll-behavior:smooth;
-}
+        .logo { display: flex; align-items: center; gap: 12px; font-size: 22px; font-weight: 700; }
+        .logo img { height: 45px; }
 
-body{
-  background:
-    linear-gradient(rgba(8,26,58,0.92), rgba(8,26,58,0.92)),
-    url("image/rob-img.png");
-  background-size:cover;
-  background-position:center;
-  background-attachment:fixed;
-  color:var(--white);
-  overflow-x: hidden;
-}
+        .nav-menu { display: flex; align-items: center; }
+        .nav-menu a { margin-left: 25px; text-decoration: none; color: white; font-weight: 500; transition: 0.3s; }
+        .nav-menu a:hover { color: var(--accent); }
 
-/* ===== NAVBAR ===== */
-header{
-  position:fixed;
-  top:0;
-  width:100%;
-  background:rgba(8,26,58,0.98);
-  z-index:1000;
-  border-bottom:1px solid rgba(255,255,255,0.1);
-}
+        .hamburger { display: none; cursor: pointer; font-size: 24px; }
 
-.navbar{
-  width:90%;
-  max-width: 1200px;
-  margin:auto;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:15px 0;
-}
+        @media (max-width: 900px) {
+            .hamburger { display: block; }
+            .nav-menu {
+                position: fixed; top: 0; right: -100%; width: 75%; height: 100vh;
+                background: var(--navy); flex-direction: column; justify-content: center;
+                transition: 0.4s; box-shadow: -10px 0 30px rgba(0,0,0,0.5);
+            }
+            .nav-menu.active { right: 0; }
+            .nav-menu a { margin: 15px 0; font-size: 20px; }
+        }
 
-.logo{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  font-size:22px;
-  font-weight:700;
-  z-index: 1100;
-}
+        /* ===== HERO SECTION ===== */
+        .hero { padding: 180px 0 100px; }
+        .hero-box {
+            width: 90%; max-width: 1200px; margin: auto;
+            display: grid; grid-template-columns: 1fr 1.2fr; align-items: center; gap: 50px;
+        }
+        .hero h1 { font-size: clamp(32px, 5vw, 56px); line-height: 1.2; text-transform: uppercase; }
+        .hero span { color: var(--accent); }
+        .hero p { margin: 25px 0; color: #dbe6ff; font-size: 18px; line-height: 1.6; }
 
-.logo img{height:45px}
+        .hero-img-container img {
+            width: 100%; max-width: 450px; animation: float 5s ease-in-out infinite;
+        }
 
-/* Nav Links Styling */
-.nav-menu {
-  display: flex;
-  align-items: center;
-}
+        @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-20px)} }
 
-.nav-menu a{
-  margin-left:22px;
-  text-decoration:none;
-  color:white;
-  font-weight:500;
-  transition: 0.3s;
-}
+        /* ===== VISION & KAIZEN ===== */
+        .section { padding: 80px 0; }
+        .container { width: 90%; max-width: 1200px; margin: auto; }
+        .title { text-align: center; margin-bottom: 50px; }
+        .title h2 { font-size: clamp(28px, 4vw, 44px); text-transform: uppercase; letter-spacing: 2px; }
+        
+        .vision-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+        .vision-card { 
+            background: rgba(255,255,255,0.05); 
+            padding: 40px; 
+            border-radius: 20px; 
+            border-top: 3px solid var(--accent);
+            text-align: center;
+        }
+        .vision-card h3 { color: var(--accent); margin-bottom: 15px; font-size: 24px; }
 
-.nav-menu a:hover{color: var(--accent)}
+        .kaizen-box {
+            text-align: center;
+            margin-top: 60px;
+            background: rgba(255,255,255,0.03);
+            padding: 50px 20px;
+            border-radius: 30px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        .kaizen-box img {
+            max-width: 100%;
+            width: 550px;
+            border-radius: 15px;
+            margin: 25px 0;
+            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.4));
+        }
 
-/* Hamburger Icon */
-.hamburger {
-  display: none;
-  cursor: pointer;
-  font-size: 24px;
-  z-index: 1100;
-}
+        /* ===== INITIATIVES GRID ===== */
+        .fields-grid {
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+            gap: 25px;
+        }
+        .card {
+            background: white; padding: 45px 35px; border-radius: 22px; text-align: center;
+            color: var(--navy); transition: 0.4s ease; display: flex; flex-direction: column; align-items: center;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+        }
+        .card:hover { transform: translateY(-10px); box-shadow: 0 20px 45px rgba(127,179,255,0.3); }
+        .card i { font-size: 40px; margin-bottom: 20px; color: var(--navy-light); }
+        .card h4 { margin-bottom: 12px; font-weight: 700; font-size: 20px; }
+        .card p { font-size: 15px; color: #555; line-height: 1.5; margin-bottom: 25px; flex-grow: 1; }
 
-/* Mobile Nav Logic */
-@media (max-width: 900px) {
-  .hamburger { display: block; }
-  
-  .nav-menu {
-    position: fixed;
-    top: 0;
-    right: -100%;
-    width: 70%;
-    height: 100vh;
-    background: var(--navy);
-    flex-direction: column;
-    justify-content: center;
-    transition: 0.4s;
-    box-shadow: -10px 0 30px rgba(0,0,0,0.5);
-  }
+        .card a {
+            display: inline-block;
+            color: var(--navy-light);
+            font-weight: 700;
+            text-decoration: none;
+            border-bottom: 2px solid var(--accent);
+            transition: 0.3s;
+            padding-bottom: 2px;
+        }
+        .card a:hover { color: var(--accent); letter-spacing: 1px; }
 
-  .nav-menu.active { right: 0; }
+        /* ===== FOOTER ===== */
+        footer { background: #05132b; padding: 80px 0; text-align: center; border-top: 1px solid rgba(255,255,255,0.1); }
+        footer img { height: 70px; margin-bottom: 20px; }
+        footer p { color: #dbe6ff; font-size: 14px; line-height: 1.8; }
 
-  .nav-menu a {
-    margin: 15px 0;
-    font-size: 20px;
-  }
-}
-
-.btn{
-  background:white;
-  color:var(--navy)!important;
-  padding:10px 24px;
-  border-radius:30px;
-  font-weight:600;
-}
-
-/* ===== HERO ===== */
-.hero{
-  padding:180px 0 100px;
-}
-
-.hero-box{
-  width:90%;
-  max-width: 1200px;
-  margin:auto;
-  display:grid;
-  grid-template-columns: 1.2fr 1fr;
-  align-items:center;
-  gap:50px;
-}
-
-.hero h1{
-  font-size:clamp(32px, 5vw, 56px);
-  line-height:1.2;
-}
-
-.hero span{color:var(--accent)}
-
-.hero p{
-  margin:25px 0;
-  max-width:550px;
-  color:#dbe6ff;
-  font-size: 17px;
-}
-
-.hero-buttons {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 15px;
-}
-
-.hero-buttons a{
-  padding:14px 30px;
-  border-radius:30px;
-  text-decoration:none;
-  font-weight:600;
-  text-align: center;
-  flex: 1;
-  min-width: 180px;
-}
-
-.primary{ background:white; color:var(--navy); }
-.secondary{ border:2px solid white; color:white; }
-
-.hero-img-container {
-  display: flex;
-  justify-content: center;
-}
-
-.hero img{
-  width:100%;
-  max-width: 450px;
-  animation:float 5s ease-in-out infinite;
-}
-
-@keyframes float{
-  0%,100%{transform:translateY(0)}
-  50%{transform:translateY(-20px)}
-}
-
-/* ===== VISION SECTION ===== */
-.section{ padding:80px 0; }
-.container{ width:90%; max-width:1200px; margin:auto; }
-.title{ text-align:center; margin-bottom:50px; }
-.title h2{ font-size: clamp(28px, 4vw, 44px); }
-.title span{color:var(--accent)}
-
-.vision{
-  display:grid;
-  grid-template-columns: 1fr 1fr;
-  gap:50px;
-  align-items:center;
-}
-
-.vision h3{ color:var(--accent); margin-bottom:10px; font-size: 24px;}
-.vision p{ margin-bottom:20px; color:#dbe6ff; line-height: 1.6;}
-
-.vision img{
-  width:100%;
-  max-width: 500px;
-  border-radius:20px;
-  background:white;
-  padding:20px;
-}
-
-/* ===== INITIATIVES ===== */
-.initiatives{
-  display:grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap:30px;
-}
-
-.card{
-  background:white;
-  padding:40px 30px;
-  border-radius:22px;
-  text-align:center;
-  color:var(--navy);
-  box-shadow:0 15px 35px rgba(0,0,0,0.2);
-  transition:0.3s;
-}
-
-.card:hover{ transform:translateY(-10px); box-shadow:0 20px 45px rgba(0,0,0,0.3); }
-.card h4{ margin-bottom:15px; font-size: 22px; }
-.card p { font-size: 15px; color: #555; }
-
-.card a{
-  display:inline-block;
-  margin-top:20px;
-  color:var(--navy-light);
-  font-weight:700;
-  text-decoration:none;
-  border-bottom: 2px solid var(--accent);
-}
-
-/* ===== FOOTER ===== */
-footer{
-  background:#05132b;
-  padding:60px 0;
-  text-align:center;
-}
-
-footer img{ height:60px; margin-bottom:15px; }
-footer p{ font-size:14px; color:#dbe6ff; line-height: 1.8; }
-
-/* ===== RESPONSIVE MEDIA QUERIES ===== */
-@media(max-width:900px){
-  .hero { padding: 140px 0 60px; }
-  .hero-box, .vision{
-    grid-template-columns: 1fr;
-    text-align: center;
-  }
-  .hero p { margin: 25px auto; }
-  .hero-buttons { justify-content: center; }
-  .hero-img-container { order: -1; } /* Image comes first on mobile */
-  
-  .vision img { margin: 0 auto; }
-}
-
-@media(max-width: 480px) {
-  .hero h1 { font-size: 32px; }
-  .hero-buttons a { width: 100%; flex: none; }
-}
-</style>
+        @media(max-width:900px){
+            .hero-box, .vision-grid { grid-template-columns: 1fr; text-align: center; }
+            .hero-img-container { order: -1; }
+        }
+    </style>
 </head>
 
 <body>
 
 <header>
-  <div class="navbar">
-    <div class="logo">
-      <img src="image/dwija-logo.png" alt="Dwija Logo">
-      DWIJA
+    <div class="navbar">
+        <div class="logo">
+            <img src="image/dwija-logo.png" alt="Dwija Logo">
+            DWIJA
+        </div>
+        <div class="hamburger" onclick="toggleMenu()">
+            <i class="fa-solid fa-bars"></i>
+        </div>
+        <div class="nav-menu" id="navMenu">
+            <a href="#">Home</a>
+            <a href="#philosophy">Philosophy</a>
+            <a href="#fields">Operational Fields</a>
+            <a href="#contact">Contact</a>
+        </div>
     </div>
-    
-    <div class="hamburger" onclick="toggleMenu()">
-      <i class="fa-solid fa-bars" id="menu-icon"></i>
-    </div>
-
-    <div class="nav-menu" id="navMenu">
-      <a href="#" onclick="toggleMenu()">Home</a>
-      <a href="#vision" onclick="toggleMenu()">Vision</a>
-      <a href="#initiatives" onclick="toggleMenu()">Initiatives</a>
-      <a href="#contact" onclick="toggleMenu()">Contact</a>
-      <a href="d-robotics.html" class="btn">D-ROBOTICS</a>
-    </div>
-  </div>
 </header>
 
 <section class="hero">
-  <div class="hero-box">
-    <div class="hero-img-container">
-      <img src="image/akshaya-logo.png" alt="Founder Akshaya">
+    <div class="hero-box">
+        <div class="hero-img-container">
+            <img src="image/akshaya-logo.png" alt="Founder Akshaya C P">
+        </div>
+        <div>
+            <h1>DWIJA <span>Problem Solving Platform</span></h1>
+            <p>
+                A proprietary concern of <strong>Ms. Akshaya C P</strong>. Guided by a <strong>SMART</strong> vision and the <strong>Kaizen</strong> philosophy, we empower the next generation with intelligence, productivity, and happiness.
+            </p>
+            <a href="#fields" style="display:inline-block; background:white; color:var(--navy); padding:14px 35px; border-radius:30px; text-decoration:none; font-weight:700; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">Explore Initiatives</a>
+        </div>
     </div>
-    <div>
-      <h1>DWIJA <span>Problem-solving platform.</span></h1>
-      <p>
-        DWIJA is a future-focused innovation ecosystem founded by
-        <strong>AKSHAYA</strong>, bringing technology, robotics,
-        intelligence, and events together under one powerful vision.
-      </p>
-      <div class="hero-buttons">
-        <a href="#initiatives" class="primary">Explore Initiatives</a>
-        <a href="#vision" class="secondary">Our Vision</a>
-      </div>
-    </div>
-  </div>
 </section>
 
-<section class="section" id="vision">
-  <div class="container">
-    <div class="title">
-      <h2>Vision & <span>Mission</span></h2>
+<section class="section" id="philosophy">
+    <div class="container">
+        <div class="title">
+            <h2>Our <span>Foundation</span></h2>
+        </div>
+        <div class="vision-grid">
+            <div class="vision-card">
+                <h3>Our Vision</h3>
+                <p>To make people well understandable and knowledgeable by a problem solving approach.</p>
+            </div>
+            <div class="vision-card">
+                <h3>Our Mission</h3>
+                <p>Practically implementing problem solving approach in current relevant problems through innovation and continuous improvement.</p>
+            </div>
+        </div>
+
+        <div class="kaizen-box">
+            <h3 style="color:var(--accent); text-transform:uppercase; letter-spacing:1px;">The Kaizen Strategy</h3>
+            <img src="image/kaiz.jpg" alt="Kaizen Continuous Improvement Cycle">
+            <p style="font-style:italic; color:#dbe6ff; max-width:700px; margin:auto;">
+                "Continuous improvement is not a destination, it is a journey. At DWIJA, we apply this cycle to every field we operate in."
+            </p>
+        </div>
     </div>
-
-    <div class="vision">
-      <div>
-        <h3>Our Vision</h3>
-        <p>
-          To build a powerful platform that connects innovation,
-          intelligence, and impact — shaping the future through technology.
-        </p>
-
-        <h3>Our Mission</h3>
-        <p>
-          To create and support initiatives like robotics, AI,
-          automation, and events that solve real-world problems efficiently.
-        </p>
-      </div>
-
-      <div>
-        <img src="image/dwija-logo.png" alt="Dwija Vision">
-      </div>
-    </div>
-  </div>
 </section>
 
-<section class="section" id="initiatives">
-  <div class="container">
-    <div class="title">
-      <h2>DWIJA <span>Initiatives</span></h2>
+<section class="section" id="fields">
+    <div class="container">
+        <div class="title">
+            <h2>Operational <span>Fields</span></h2>
+        </div>
+
+        <div class="fields-grid">
+            <div class="card">
+                <i class="fa-solid fa-robot"></i>
+                <h4>D-ROBOTICS</h4>
+                <p>Advanced AI and robotic automation designed to solve real-world industrial and domestic challenges.</p>
+                <a href="d-robotics.html">Visit D-ROBOTICS →</a>
+            </div>
+
+            <div class="card">
+                <i class="fa-solid fa-laptop-code"></i>
+                <h4>SOFTWARE</h4>
+                <p>Developing robust digital architectures and custom software applications for seamless efficiency.</p>
+                <a href="software.html">Visit Software →</a>
+            </div>
+
+            <div class="card">
+                <i class="fa-solid fa-user-graduate"></i>
+                <h4>TRAINING</h4>
+                <p>Empowering minds with hands-on problem-solving workshops and specialized technical education.</p>
+                <a href="training.html">Visit Training →</a>
+            </div>
+
+            <div class="card">
+                <i class="fa-solid fa-chart-line"></i>
+                <h4>MANAGEMENT</h4>
+                <p>Optimizing organizational growth using SMART vision and strategic Kaizen-based planning.</p>
+                <a href="management.html">Visit Management →</a>
+            </div>
+
+            <div class="card">
+                <i class="fa-solid fa-calendar-star"></i>
+                <h4>EVENTS</h4>
+                <p>Organizing high-impact corporate exhibitions and technical product launches with precision.</p>
+                <a href="events.html">Visit Events →</a>
+            </div>
+
+            <div class="card">
+                <i class="fa-solid fa-brain"></i>
+                <h4>THERAPY</h4>
+                <p>Applying structured problem-solving methodologies to improve mental well-being and cognitive health.</p>
+                <a href="therapy.html">Visit Therapy →</a>
+            </div>
+
+            <div class="card">
+                <i class="fa-solid fa-film"></i>
+                <h4>FILM INDUSTRY</h4>
+                <p>Bringing systematic efficiency and advanced technology to the creative media production process.</p>
+                <a href="film.html">Visit Film Industry →</a>
+            </div>
+        </div>
     </div>
-
-    <div class="initiatives">
-      <div class="card">
-        <i class="fa-solid fa-robot" style="font-size: 40px; color: var(--navy-light); margin-bottom: 15px;"></i>
-        <h4>D-ROBOTICS</h4>
-        <p>
-          Advanced robotics, AI, automation, and custom intelligent systems
-          built under the DWIJA ecosystem.
-        </p>
-        <a href="d-robotics.html">Visit D-ROBOTICS →</a>
-      </div>
-
-      <div class="card">
-        <i class="fa-solid fa-calendar-star" style="font-size: 40px; color: var(--navy-light); margin-bottom: 15px;"></i>
-        <h4>Technology Events</h4>
-        <p>
-          Innovation expos, robotics showcases, and future-tech events
-          conducted globally by DWIJA.
-        </p>
-      </div>
-
-      <div class="card">
-        <i class="fa-solid fa-user-graduate" style="font-size: 40px; color: var(--navy-light); margin-bottom: 15px;"></i>
-        <h4>Education & Training</h4>
-        <p>
-          Skill development, workshops, and hands-on training
-          for the next generation of engineers.
-        </p>
-      </div>
-    </div>
-  </div>
 </section>
 
 <footer id="contact">
-  <img src="image/akshaya-logo.png" alt="Akshaya Logo">
-  <p>
-    © 2025 <strong>DWIJA</strong><br>
-    Founded by <strong>AKSHAYA</strong><br>
-    D-ROBOTICS is an official initiative of DWIJA
-  </p>
+    <div class="container">
+        <img src="image/akshaya-logo.png" alt="Akshaya Logo">
+        <p>
+            © 2025 <strong>DWIJA PROBLEM SOLVING PLATFORM</strong><br>
+            A Proprietary Ship Company of <strong>Ms. Akshaya C P</strong><br>
+            <em>Guided by Kaizen & SMART Vision</em>
+        </p>
+    </div>
 </footer>
 
 <script>
-function toggleMenu() {
-    const menu = document.getElementById('navMenu');
-    const icon = document.getElementById('menu-icon');
-    menu.classList.toggle('active');
-    
-    // Toggle between bars and xmark icons
-    if (menu.classList.contains('active')) {
-        icon.classList.remove('fa-bars');
-        icon.classList.add('fa-xmark');
-    } else {
-        icon.classList.remove('fa-xmark');
-        icon.classList.add('fa-bars');
+    function toggleMenu() {
+        const menu = document.getElementById('navMenu');
+        menu.classList.toggle('active');
     }
-}
 </script>
 
 </body>

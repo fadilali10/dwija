@@ -1,423 +1,267 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <link rel="icon" type="image/png" href="image/dwija-logo.png">
+    <link rel="icon" type="image/png" href="image/dwija-logo.png">
+    <link rel="icon" sizes="192x192" href="image/dwija-logo.png">
+    <link rel="apple-touch-icon" href="image/dwija-logo.png">
+    <meta property="og:image" content="https://dwija.org/image/dwija-logo.png">
+    <meta charset="UTF-8">
+    <title>D-ROBOTICS – by DWIJA</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<link rel="icon" sizes="192x192" href="image/dwija-logo.png">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-<link rel="apple-touch-icon" href="image/dwija-logo.png">
+    <style>
+        :root {
+            --navy: #081a3a;
+            --navy-light: #0f2c5c;
+            --white: #ffffff;
+            --accent: #7fb3ff;
+        }
 
-<meta property="og:image" content="https://dwija.org/image/dwija-logo.png">
-<meta charset="UTF-8">
-<title>D-ROBOTICS by DWIJA</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+        * { margin:0; padding:0; box-sizing:border-box; font-family:'Poppins',sans-serif; scroll-behavior:smooth; }
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+        body {
+            background: linear-gradient(rgba(8,26,58,0.96), rgba(8,26,58,0.96)), url("image/rob1-img.png");
+            background-size: cover; background-position: center; background-attachment: fixed;
+            color: var(--white); overflow-x: hidden;
+        }
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+        /* ===== NAVBAR ===== */
+        header {
+            position: fixed; width: 100%; top: 0;
+            background: rgba(8,26,58,0.98); border-bottom: 1px solid rgba(255,255,255,0.1);
+            z-index: 1000;
+        }
 
-<style>
-:root{
-  --navy:#081a3a;
-  --navy-light:#0f2c5c;
-  --white:#ffffff;
-  --accent: #7fb3ff;
-}
+        .navbar {
+            width: 90%; max-width: 1200px; margin: auto;
+            display: flex; justify-content: space-between; align-items: center; padding: 15px 0;
+        }
 
-/* ===== GLOBAL ===== */
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family:'Poppins',sans-serif;
-  scroll-behavior:smooth;
-}
+        .logo { display: flex; align-items: center; gap: 10px; font-size: 22px; font-weight: 700; }
+        .logo img { height: 45px; }
 
-body{
-  background:
-    linear-gradient(rgba(8,26,58,0.92), rgba(8,26,58,0.92)),
-    url("image/rob1-img.png");
-  background-size:cover;
-  background-position:center;
-  background-attachment:fixed;
-  color:var(--white);
-  overflow-x: hidden; 
-}
+        .nav-links { display: flex; align-items: center; }
+        .nav-links a { margin-left: 22px; text-decoration: none; color: white; font-weight: 500; transition: 0.3s; }
+        .nav-links a:hover { color: var(--accent); }
 
-/* ===== NAVBAR ===== */
-header{
-  position:fixed;
-  width:100%;
-  top:0;
-  background:rgba(8,26,58,0.98);
-  border-bottom:1px solid rgba(255,255,255,0.1);
-  z-index:1000;
-}
+        .btn-login { background: white; color: var(--navy)!important; padding: 8px 24px; border-radius: 30px; font-weight: 600; margin-left: 20px; }
+        .mobile-toggle { display: none; font-size: 24px; cursor: pointer; }
 
-.navbar{
-  width:90%;
-  max-width: 1200px;
-  margin:auto;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:15px 0;
-}
+        /* ===== SIDEBAR ===== */
+        .side-panel {
+            position: fixed; top: 0; right: -100%; width: 320px; height: 100%;
+            background: white; color: var(--navy); box-shadow: -10px 0 30px rgba(0,0,0,0.5);
+            transition: 0.4s; z-index: 2000; padding: 50px 30px; display: flex; flex-direction: column;
+        }
+        .side-panel.active { right: 0; }
+        .user-details { text-align: center; margin-bottom: 30px; }
+        .user-details i { font-size: 60px; color: var(--navy-light); }
+        .logout-btn { background: #ff4d4d; color: white; border: none; padding: 12px; border-radius: 10px; cursor: pointer; margin-top: auto; }
 
-.logo{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  font-size:22px;
-  font-weight:700;
-  letter-spacing: 1px;
-}
+        /* ===== HERO ===== */
+        .hero { padding: 180px 0 100px; }
+        .hero-box {
+            width: 90%; max-width: 1200px; margin: auto;
+            display: grid; grid-template-columns: 1fr 1.2fr; align-items: center; gap: 50px;
+        }
+        .hero h1 { font-size: clamp(32px, 5vw, 56px); line-height: 1.2; text-transform: uppercase; }
+        .hero span { color: var(--accent); }
+        .hero p { margin: 25px 0; color: #dbe6ff; font-size: 18px; line-height: 1.6; }
+        .hero-img-container img { width: 100%; max-width: 450px; animation: float 5s ease-in-out infinite; }
+        @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-20px)} }
 
-.logo img{height:45px}
+        /* ===== VISION & KAIZEN ===== */
+        .section { padding: 80px 0; }
+        .container { width: 90%; max-width: 1200px; margin: auto; }
+        .title { text-align: center; margin-bottom: 50px; }
+        .title h2 { font-size: clamp(28px, 4vw, 44px); text-transform: uppercase; }
+        
+        .vision-flex { display: flex; flex-wrap: wrap; gap: 30px; justify-content: center; }
+        .vision-card { flex: 1; min-width: 300px; background: rgba(255,255,255,0.05); padding: 40px; border-radius: 20px; border-top: 3px solid var(--accent); text-align: center; }
+        .kaizen-box { text-align: center; margin-top: 40px; }
 
-.nav{
-  display: flex;
-  align-items: center;
-}
+        /* ===== EXPERTISE GRID ===== */
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; }
+        .card { 
+            background: white; padding: 40px; border-radius: 22px; text-align: center; color: var(--navy); 
+            transition: 0.4s; display: flex; flex-direction: column; align-items: center;
+        }
+        .card:hover { transform: translateY(-10px); box-shadow: 0 15px 40px rgba(127,179,255,0.3); }
+        .card i { font-size: 40px; margin-bottom: 20px; color: var(--navy-light); }
+        .card h4 { margin-bottom: 15px; text-transform: uppercase; font-weight: 700; }
+        .card a { margin-top: 15px; font-weight: 700; color: var(--navy-light); text-decoration: none; border-bottom: 2px solid var(--accent); }
 
-/* Laptop Navigation */
-.nav-links {
-  display: flex;
-  align-items: center;
-}
+        /* ===== FOOTER ===== */
+        footer { background: #05132b; padding: 60px 0; text-align: center; border-top: 1px solid rgba(255,255,255,0.1); }
+        footer img { height: 60px; margin-bottom: 15px; }
 
-.nav-links a{
-  margin-left:22px;
-  text-decoration:none;
-  color:white;
-  font-weight:500;
-  font-size: 15px;
-  transition: 0.3s;
-}
-
-.nav-links a:hover{color: var(--accent)}
-
-.btn{
-  background:white;
-  color:var(--navy)!important;
-  padding:8px 24px;
-  border-radius:30px;
-  font-weight:600;
-  margin-left: 20px;
-}
-
-/* Hamburger for Mobile */
-.mobile-toggle {
-  display: none;
-  font-size: 24px;
-  cursor: pointer;
-  margin-left: 15px;
-}
-
-/* ===== PROFILE & SIDEBAR ===== */
-#userProfileIcon {
-  display: none; 
-  margin-left: 20px;
-  cursor: pointer;
-  font-size: 30px;
-  color: var(--accent);
-}
-
-.side-panel {
-  position: fixed;
-  top: 0;
-  right: -100%; 
-  width: 320px;
-  height: 100%;
-  background: white;
-  color: var(--navy);
-  box-shadow: -10px 0 30px rgba(0,0,0,0.5);
-  transition: 0.4s cubic-bezier(0.17, 0.67, 0.83, 0.67);
-  z-index: 2000;
-  padding: 50px 30px;
-  display: flex;
-  flex-direction: column;
-}
-
-.side-panel.active { right: 0; }
-
-.close-panel {
-  position: absolute;
-  top: 25px;
-  left: 25px;
-  font-size: 24px;
-  cursor: pointer;
-  color: #ccc;
-}
-
-.user-details { text-align: center; margin-top: 20px; padding-bottom: 30px; border-bottom: 1px solid #eee; margin-bottom: 30px; }
-.user-details i { font-size: 70px; color: var(--navy-light); margin-bottom: 15px; }
-.user-details h3 { font-size: 20px; }
-
-.profile-link-btn {
-  text-decoration: none;
-  background: #f4f7ff;
-  color: var(--navy);
-  text-align: center;
-  padding: 14px;
-  border-radius: 12px;
-  font-weight: 600;
-  border: 1px solid #dce4ff;
-  display: block;
-}
-
-.logout-btn {
-  margin-top: auto;
-  background: #ff4d4d;
-  color: white;
-  border: none;
-  padding: 14px;
-  border-radius: 12px;
-  font-weight: 600;
-  cursor: pointer;
-}
-
-/* ===== HERO ===== */
-.hero{ padding:160px 0 80px; }
-.hero-box{
-  width:90%;
-  max-width: 1200px;
-  margin:auto;
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  align-items:center;
-  gap:40px;
-}
-.hero h1{ font-size: 3.5rem; line-height:1.1; margin-bottom: 20px;}
-.hero span{color:var(--accent)}
-.hero p{ margin-bottom:35px; font-size:1.1rem; color:#dbe6ff; line-height: 1.6; }
-
-.hero-buttons { display: flex; gap: 15px; flex-wrap: wrap; }
-.hero-buttons a{
-  padding:14px 32px;
-  border-radius:35px;
-  text-decoration:none;
-  font-weight:600;
-  text-align: center;
-}
-.primary{ background:white; color:var(--navy); }
-.secondary{ border:2px solid white; color:white; }
-
-.hero img{ width:100%; border-radius: 30px; animation:float 5s ease-in-out infinite; }
-
-@keyframes float{
-  0%,100%{transform:translateY(0)}
-  50%{transform:translateY(-15px)}
-}
-
-/* ===== SECTIONS ===== */
-.section{ padding:80px 0; }
-.container{ width:90%; max-width:1200px; margin:auto; }
-.title{ text-align:center; margin-bottom:50px; }
-.title h2{ font-size: 2.5rem; }
-.title span{color:var(--accent)}
-
-/* ===== VISION & SERVICES ===== */
-.vision{ display:grid; grid-template-columns:1fr 1fr; gap:40px; align-items:center; }
-.vision img{ width:100%; border-radius:20px; background:white; padding:20px; }
-
-.services{ display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:25px; }
-.card{
-  background:white;
-  padding:40px 30px;
-  border-radius:24px;
-  text-align:center;
-  color:var(--navy);
-  box-shadow:0 10px 25px rgba(0,0,0,0.2);
-  transition:0.3s;
-}
-.card:hover{ transform:translateY(-10px); }
-
-/* ===== FOOTER ===== */
-footer{ background:#05132b; padding:60px 0; text-align:center; }
-footer img{ height:50px; margin-bottom:15px; }
-footer p{ font-size:14px; color:#aab8d9; }
-
-/* ===== RESPONSIVE (MOBILE & TABLET) ===== */
-@media(max-width:992px){
-  .hero h1 { font-size: 2.8rem; }
-  .hero-box, .vision { grid-template-columns: 1fr; text-align: center; }
-  .hero-buttons { justify-content: center; }
-  .hero img, .vision img { max-width: 500px; margin: 0 auto; }
-}
-
-@media(max-width:768px){
-  .nav-links {
-    position: fixed;
-    top: 75px;
-    left: -100%;
-    width: 100%;
-    height: calc(100vh - 75px);
-    background: var(--navy);
-    flex-direction: column;
-    padding: 40px;
-    transition: 0.4s;
-  }
-  .nav-links.active { left: 0; }
-  .nav-links a { margin: 15px 0; font-size: 18px; }
-  .mobile-toggle { display: block; }
-  .btn { margin: 20px 0 0 0; width: 100%; text-align: center; }
-  .hero h1 { font-size: 2.2rem; }
-  .side-panel { width: 100%; } /* Full screen sidebar on mobile */
-}
-</style>
+        @media(max-width:900px){
+            .hero-box { grid-template-columns: 1fr; text-align: center; }
+            .hero-img-container { order: -1; }
+            .nav-links { position: fixed; top: 75px; left: -100%; width: 100%; height: 100vh; background: var(--navy); flex-direction: column; padding: 40px; transition: 0.4s; }
+            .nav-links.active { left: 0; }
+            .mobile-toggle { display: block; }
+        }
+    </style>
 </head>
 
 <body>
 
 <header>
-  <div class="navbar">
-    <div class="logo">
-      <img src="image/dwija-logo.png" alt="Dwija Logo">
-      D-ROBOTICS
+    <div class="navbar">
+        <div class="logo">
+            <img src="image/dwija-logo.png" alt="Dwija Logo">
+            D-ROBOTICS
+        </div>
+        <div class="nav-links" id="navLinks">
+            <a href="index.html">Home</a>
+            <a href="#vision">Vision</a>
+            <a href="#services">Expertise</a>
+            <a href="#contact">Contact</a>
+            <a href="login.html" id="loginBtn" class="btn-login">Login</a>
+            <div id="userProfileIcon" style="display:none; cursor:pointer; font-size:28px; color:var(--accent); margin-left:20px;" onclick="toggleSidebar()">
+                <i class="fa-solid fa-circle-user"></i>
+            </div>
+        </div>
+        <div class="mobile-toggle" onclick="toggleMobileNav()">
+            <i class="fa-solid fa-bars" id="menuIcon"></i>
+        </div>
     </div>
-    
-    <div class="nav">
-      <div class="nav-links" id="navLinks">
-        <a href="index.html">Home</a>
-        <a href="#vision">Vision</a>
-        <a href="#services">Services</a>
-        <a href="#contact">Contact</a>
-        <a href="login.html" id="loginBtn" class="btn">Login</a>
-      </div>
-
-      <div id="userProfileIcon" onclick="toggleSidebar()">
-        <i class="fa-solid fa-circle-user"></i>
-      </div>
-
-      <div class="mobile-toggle" onclick="toggleMobileNav()">
-        <i class="fa-solid fa-bars" id="menuIcon"></i>
-      </div>
-    </div>
-  </div>
 </header>
 
 <div id="sideAccountPanel" class="side-panel">
-    <i class="fa-solid fa-xmark close-panel" onclick="toggleSidebar()"></i>
-    <div class="user-details">
+    <i class="fa-solid fa-xmark" style="cursor:pointer; font-size:24px;" onclick="toggleSidebar()"></i>
+    <div class="user-details" style="margin-top:20px;">
         <i class="fa-solid fa-circle-user"></i>
-        <h3 id="displayUserName">Loading...</h3>
+        <h3 id="displayUserName" style="margin-top:10px;">Loading...</h3>
         <p id="displayUserPhone">---</p>
     </div>
-    
-    <a href="set-profile.html" class="profile-link-btn">
-        <i class="fa-solid fa-user-pen"></i> Set/Edit Profile
-    </a>
-    
+    <a href="set-profile.html" style="text-decoration:none; background:#f4f7ff; padding:12px; border-radius:10px; text-align:center; color:var(--navy); font-weight:600;">Edit Profile</a>
     <button class="logout-btn" onclick="userLogout()">Logout</button>
 </div>
 
 <section class="hero">
-  <div class="hero-box">
-    <div>
-      <h1>D-ROBOTICS <span>by DWIJA</span></h1>
-      <p>
-        A premium robotics and technology company founded by
-        <strong>AKSHAYA</strong>, solving real-world problems with intelligence and cutting-edge automation.
-      </p>
-      <div class="hero-buttons">
-        <a href="customized-robot.html" class="primary" onclick="goToCustomize(event)">Customized Robots</a>
-        <a href="#vision" class="secondary">Our Vision</a>
-      </div>
+    <div class="hero-box">
+        <div class="hero-img-container">
+            <img src="image/robo-img.jpeg" alt="Founder Akshaya">
+        </div>
+        <div>
+            <h1>D-ROBOTICS <span>by DWIJA</span></h1>
+            <p>
+                A premium initiative under the DWIJA Problem Solving Platform. Founded by <strong>Ms. Akshaya C P</strong>, we provide specialized robotics, AI, and automation solutions through the lens of continuous improvement.
+            </p>
+            <div style="display:flex; gap:15px; flex-wrap:wrap;">
+                <a href="customized-robot.html" onclick="goToCustomize(event)" style="background:white; color:var(--navy); padding:14px 30px; border-radius:30px; text-decoration:none; font-weight:700;">Customized Robots</a>
+                <a href="#vision" style="border:2px solid white; color:white; padding:14px 30px; border-radius:30px; text-decoration:none; font-weight:700;">Our Philosophy</a>
+            </div>
+        </div>
     </div>
-    <div>
-      <img src="image/robo-img.jpeg" alt="D-Robotics Robot">
-    </div>
-  </div>
 </section>
 
 <section class="section" id="vision">
-  <div class="container">
-    <div class="title"><h2>Vision & <span>Mission</span></h2></div>
-    <div class="vision">
-      <div>
-        <h3>Our Vision</h3>
-        <p>Empowering humanity through intelligent problem-solving and accessible technology.</p>
-        <h3>Our Mission</h3>
-        <p>To deliver practical, high-performance robotics and software solutions.</p>
-      </div>
-      <div><img src="image/akshaya-logo.png" alt="Founder Akshaya"></div>
+    <div class="container">
+        <div class="title"><h2>Vision & <span>Mission</span></h2></div>
+        <div class="vision-flex">
+            <div class="vision-card">
+                <h3>Our Vision</h3>
+                <p>To lead the world in accessible, intelligent robotics that solve complex human problems effortlessly.</p>
+            </div>
+            <div class="vision-card">
+                <h3>Our Mission</h3>
+                <p>Practically implementing high-performance AI and mechanical automation to make life smarter and more productive.</p>
+            </div>
+        </div>
+            
+       <div class="kaizen-box">
+            <h3 style="color:var(--accent); text-transform:uppercase; letter-spacing:1px;">The Kaizen Strategy</h3>
+            <img src="image/kaiz.jpg" alt="Kaizen Continuous Improvement Cycle">
+            <p style="font-style:italic; color:#dbe6ff; max-width:700px; margin:auto;">
+                "Continuous improvement is not a destination, it is a journey. At DWIJA, we apply this cycle to every field we operate in."
+            </p>
+        </div>
+
+            <p style="margin-top:15px; color:#dbe6ff; font-style:italic;">"Applying Kaizen to every circuit and line of code."</p>
+        </div>
     </div>
-  </div>
 </section>
 
 <section class="section" id="services">
-  <div class="container">
-    <div class="title"><h2>Our <span>Expertise</span></h2></div>
-    <div class="services">
-      <div class="card">
-        <i class="fa-solid fa-robot" style="font-size: 30px; margin-bottom: 15px; color: var(--navy-light);"></i>
-        <h4>Robotics</h4>
-        <p>Custom automation and industrial robotics systems.</p>
-      </div>
-      <div class="card">
-        <i class="fa-solid fa-code" style="font-size: 30px; margin-bottom: 15px; color: var(--navy-light);"></i>
-        <h4>AI & Software</h4>
-        <p>Smart, AI-powered software designed for modern infrastructure.</p>
-      </div>
-      <div class="card">
-        <i class="fa-solid fa-graduation-cap" style="font-size: 30px; margin-bottom: 15px; color: var(--navy-light);"></i>
-        <h4>Training</h4>
-        <p>Empowering the next generation with technical skills.</p>
-      </div>
+    <div class="container">
+        <div class="title"><h2>Robotics <span>Expertise</span></h2></div>
+        <div class="grid">
+            <div class="card">
+                <i class="fa-solid fa-robot"></i>
+                <h4>Industrial Robots</h4>
+                <p>Custom-built automation systems for manufacturing and large-scale industrial efficiency.</p>
+                <a href="#">Learn More →</a>
+            </div>
+            <div class="card">
+                <i class="fa-solid fa-microchip"></i>
+                <h4>AI Integration</h4>
+                <p>Giving machines a brain with advanced neural networks and predictive logic systems.</p>
+                <a href="#">Learn More →</a>
+            </div>
+            <div class="card">
+                <i class="fa-solid fa-graduation-cap"></i>
+                <h4>Robo-Training</h4>
+                <p>Specialized hands-on workshops for the next generation of robotics engineers.</p>
+                <a href="#">Join Workshop →</a>
+            </div>
+        </div>
     </div>
-  </div>
 </section>
 
 <footer id="contact">
-  <img src="image/akshaya-logo.png" alt="Akshaya Logo">
-  <p>© 2025 <strong>D-ROBOTICS</strong> by DWIJA<br>Founder & CEO: <strong>AKSHAYA</strong></p>
+    <img src="image/akshaya-logo.png" alt="Akshaya Logo">
+    <p>© 2025 <strong>D-ROBOTICS</strong> by DWIJA<br>Founder & CEO: <strong>AKSHAYA</strong></p>
 </footer>
 
 <script>
-const SUPABASE_URL = "https://tvyllslbogeeaaqxywin.supabase.co";
-const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR2eWxsc2xib2dlZWFhcXh5d2luIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjY3MjcxOTQsImV4cCI6MjA4MjMwMzE5NH0.NvuBeCH5VSPQe88DRxohU0mRcRhV8u1_OsocIi8Vlsk";
-const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    const SUPABASE_URL = "https://tvyllslbogeeaaqxywin.supabase.co";
+    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR2eWxsc2xib2dlZWFhcXh5d2luIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjY3MjcxOTQsImV4cCI6MjA4MjMwMzE5NH0.NvuBeCH5VSPQe88DRxohU0mRcRhV8u1_OsocIi8Vlsk";
+    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-const navLinks = document.getElementById("navLinks");
-const menuIcon = document.getElementById("menuIcon");
+    function toggleMobileNav() {
+        const links = document.getElementById("navLinks");
+        const icon = document.getElementById("menuIcon");
+        links.classList.toggle("active");
+        icon.classList.toggle("fa-bars");
+        icon.classList.toggle("fa-xmark");
+    }
 
-function toggleMobileNav() {
-    navLinks.classList.toggle("active");
-    menuIcon.classList.toggle("fa-bars");
-    menuIcon.classList.toggle("fa-xmark");
-}
+    function toggleSidebar() {
+        document.getElementById("sideAccountPanel").classList.toggle("active");
+    }
 
-function toggleSidebar() {
-    document.getElementById("sideAccountPanel").classList.toggle("active");
-}
-
-async function checkAuthStatus() {
-    const { data: { session } } = await supabaseClient.auth.getSession();
-    if (session) {
-        document.getElementById("loginBtn").style.display = "none";
-        document.getElementById("userProfileIcon").style.display = "block";
-        const { data: profile } = await supabaseClient.from('profiles').select('full_name, phone_number').eq('id', session.user.id).single();
-        if (profile) {
-            document.getElementById("displayUserName").innerText = profile.full_name || "User";
-            document.getElementById("displayUserPhone").innerText = profile.phone_number || "No Phone";
+    async function checkAuthStatus() {
+        const { data: { session } } = await supabaseClient.auth.getSession();
+        if (session) {
+            document.getElementById("loginBtn").style.display = "none";
+            document.getElementById("userProfileIcon").style.display = "block";
+            const { data: profile } = await supabaseClient.from('profiles').select('full_name, phone_number').eq('id', session.user.id).single();
+            if (profile) {
+                document.getElementById("displayUserName").innerText = profile.full_name || "User";
+                document.getElementById("displayUserPhone").innerText = profile.phone_number || "No Phone";
+            }
         }
     }
-}
 
-async function userLogout() {
-    await supabaseClient.auth.signOut();
-    window.location.reload();
-}
+    async function userLogout() {
+        await supabaseClient.signOut();
+        window.location.reload();
+    }
 
-async function goToCustomize(event){
-    event.preventDefault(); 
-    const { data: { session } } = await supabaseClient.auth.getSession();
-    window.location.href = session ? "customized-robot.html" : "login.html";
-}
+    async function goToCustomize(event){
+        event.preventDefault(); 
+        const { data: { session } } = await supabaseClient.auth.getSession();
+        window.location.href = session ? "customized-robot.html" : "login.html";
+    }
 
-checkAuthStatus();
+    checkAuthStatus();
 </script>
 </body>
 </html>
