@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" type="image/png" href="image/dwija-logo.png">
+
+<link rel="icon" sizes="192x192" href="image/dwija-logo.png">
+
+<link rel="apple-touch-icon" href="image/dwija-logo.png">
+
+<meta property="og:image" content="https://dwija.org/image/dwija-logo.png">
+    <meta charset="UTF-8">
+    <title>D-ROBOTICS | Set Profile</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <style>
+        :root{--navy:#081a3a; --navy-light:#0f2c5c; --blue-accent:#7fb3ff;}
+        *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+        
+        body{
+            min-height:100vh;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            background: linear-gradient(rgba(8,26,58,.8),rgba(8,26,58,.8)), url("image/rob1-img.png");
+            background-size:cover;
+            background-position:center;
+            background-attachment:fixed;
+            padding: 20px;
+        }
+
+        .profile-card{
+            width:100%;
+            max-width:450px;
+            background:white;
+            padding:40px 30px;
+            border-radius:24px;
+            text-align:center;
+            color:var(--navy);
+            box-shadow:0 30px 70px rgba(0,0,0,.45);
+            transition: transform 0.3s ease;
+        }
+
+        .profile-card i.main-icon {
+            font-size: 50px;
+            color: var(--navy);
+            margin-bottom: 15px;
+        }
+
+        .profile-card h2{margin-bottom:10px; font-weight: 700;}
+        .profile-card p{margin-bottom:25px; font-size: 14px; color: #666;}
+
+        .input-group {
+            text-align: left;
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 12px;
+            font-weight: 700;
+            margin-bottom: 5px;
+            color: #555;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .profile-card input{
+            width:100%;
+            padding:14px;
+            border-radius:12px;
+            border:1px solid #ccd9ff;
+            outline: none;
+            font-size: 15px;
+            transition: 0.3s;
+        }
+
+        .profile-card input:focus{
+            border-color: var(--navy);
+            box-shadow: 0 0 0 4px rgba(8,26,58,0.1);
+        }
+
+        .save-btn{
+            width:100%;
+            padding:14px;
+            background:var(--navy);
+            color:white;
+            border:none;
+            border-radius:30px;
+            font-size:16px;
+            font-weight:600;
+            cursor:pointer;
+            margin-top: 10px;
+            transition: 0.3s;
+        }
+
+        .save-btn:hover{ background:var(--navy-light); transform: translateY(-2px); }
+        .save-btn:active { transform: translateY(0); }
+        .save-btn:disabled{ opacity: 0.6; cursor: not-allowed; }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 25px;
+            color: var(--navy);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+        .back-link:hover { opacity: 0.7; }
+
+        /* Responsive adjustments */
+        @media (max-width: 480px) {
+            .profile-card {
+                padding: 30px 20px;
+            }
+            .profile-card i.main-icon {
+                font-size: 40px;
+            }
+            .profile-card h2 {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="profile-card">
+    <i class="fa-solid fa-user-gear main-icon"></i>
+    <h2>Update Profile</h2>
+    <p>Keep your contact information up to date.</p>
+
+    <div class="input-group">
+        <label>Full Name</label>
+        <input id="fullName" type="text" placeholder="e.g. John Doe">
+    </div>
+
+    <div class="input-group">
+        <label>Phone Number</label>
+        <input id="phone" type="tel" placeholder="e.g. 9876543210">
+    </div>
+
+    <button id="saveBtn" class="save-btn">Save Changes</button>
+    
+    <a href="d-robotics.html" class="back-link">
+        <i class="fa-solid fa-house"></i> Back to Home
+    </a>
+</div>
+
+<script>
+    const SUPABASE_URL = "https://tvyllslbogeeaaqxywin.supabase.co";
+    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR2eWxsc2xib2dlZWFhcXh5d2luIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjY3MjcxOTQsImV4cCI6MjA4MjMwMzE5NH0.NvuBeCH5VSPQe88DRxohU0mRcRhV8u1_OsocIi8Vlsk";
+    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    const saveBtn = document.getElementById("saveBtn");
+
+    async function loadCurrentProfile() {
+        const { data: { session }, error: sessionError } = await supabaseClient.auth.getSession();
+        
+        if (!session) {
+            window.location.href = "login.html";
+            return;
+        }
+
+        // Note: Column names changed to match your previous 'register' table structure
+        const { data: profile, error } = await supabaseClient
+            .from('profiles')
+            .select('full_name, phone')
+            .eq('id', session.user.id)
+            .maybeSingle(); // maybeSingle prevents error if profile doesn't exist yet
+
+        if (profile) {
+            document.getElementById("fullName").value = profile.full_name || "";
+            document.getElementById("phone").value = profile.phone || "";
+        }
+    }
+
+    saveBtn.addEventListener("click", async () => {
+        const fullName = document.getElementById("fullName").value.trim();
+        const phone = document.getElementById("phone").value.trim();
+
+        if (!fullName || !phone) {
+            alert("Please fill in both name and phone number.");
+            return;
+        }
+
+        if (phone.length < 10) {
+            alert("Please enter a valid phone number.");
+            return;
+        }
+
+        saveBtn.disabled = true;
+        saveBtn.innerText = "Processing...";
+
+        const { data: { session } } = await supabaseClient.auth.getSession();
+
+        const { error } = await supabaseClient
+            .from('profiles')
+            .upsert({ 
+                id: session.user.id, 
+                full_name: fullName, 
+                phone: phone,
+                email: session.user.email // Keeping email synced
+            });
+
+        if (error) {
+            alert("Error: " + error.message);
+            saveBtn.disabled = false;
+            saveBtn.innerText = "Save Changes";
+        } else {
+            alert("Profile updated successfully!");
+            window.location.href = "d-robotics.html";
+        }
+    });
+
+    document.addEventListener("DOMContentLoaded", loadCurrentProfile);
+</script>
+
+</body>
+</html>

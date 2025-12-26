@@ -1,50 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <link rel="icon" type="image/png" href="image/dwija-logo.png">
+
+<link rel="icon" sizes="192x192" href="image/dwija-logo.png">
+
+<link rel="apple-touch-icon" href="image/dwija-logo.png">
+
+<meta property="og:image" content="https://dwija.org/image/dwija-logo.png">
 <meta charset="UTF-8">
-<title>D-ROBOTICS by DWIJA</title>
+<title>DWIJA – by AKSHAYA</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<!-- Google Font -->
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
 
 <style>
 :root{
   --navy:#081a3a;
   --navy-light:#0f2c5c;
   --white:#ffffff;
+  --accent:#7fb3ff;
 }
 
-/* ===== GLOBAL ===== */
 *{
   margin:0;
   padding:0;
   box-sizing:border-box;
   font-family:'Poppins',sans-serif;
+  scroll-behavior:smooth;
 }
 
 body{
   background:
-    linear-gradient(rgba(8,26,58,0.85), rgba(8,26,58,0.85)),
-    url("https://png.pngtree.com/background/20210710/original/pngtree-smart-robot-arm-advertising-background-picture-image_969305.jpg");
+    linear-gradient(rgba(8,26,58,0.92), rgba(8,26,58,0.92)),
+    url("image/rob-img.png");
   background-size:cover;
   background-position:center;
   background-attachment:fixed;
   color:var(--white);
+  overflow-x: hidden;
 }
 
 /* ===== NAVBAR ===== */
 header{
   position:fixed;
-  width:100%;
   top:0;
-  background:rgba(8,26,58,0.95);
-  border-bottom:1px solid rgba(255,255,255,0.1);
+  width:100%;
+  background:rgba(8,26,58,0.98);
   z-index:1000;
+  border-bottom:1px solid rgba(255,255,255,0.1);
 }
 
 .navbar{
   width:90%;
+  max-width: 1200px;
   margin:auto;
   display:flex;
   justify-content:space-between;
@@ -55,183 +65,217 @@ header{
 .logo{
   display:flex;
   align-items:center;
-  gap:10px;
-  font-size:20px;
-  font-weight:600;
-  color:white;
+  gap:12px;
+  font-size:22px;
+  font-weight:700;
+  z-index: 1100;
 }
 
 .logo img{height:45px}
 
-.nav a{
+/* Nav Links Styling */
+.nav-menu {
+  display: flex;
+  align-items: center;
+}
+
+.nav-menu a{
   margin-left:22px;
   text-decoration:none;
   color:white;
   font-weight:500;
+  transition: 0.3s;
 }
 
-.nav a:hover{opacity:0.8}
+.nav-menu a:hover{color: var(--accent)}
+
+/* Hamburger Icon */
+.hamburger {
+  display: none;
+  cursor: pointer;
+  font-size: 24px;
+  z-index: 1100;
+}
+
+/* Mobile Nav Logic */
+@media (max-width: 900px) {
+  .hamburger { display: block; }
+  
+  .nav-menu {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 70%;
+    height: 100vh;
+    background: var(--navy);
+    flex-direction: column;
+    justify-content: center;
+    transition: 0.4s;
+    box-shadow: -10px 0 30px rgba(0,0,0,0.5);
+  }
+
+  .nav-menu.active { right: 0; }
+
+  .nav-menu a {
+    margin: 15px 0;
+    font-size: 20px;
+  }
+}
 
 .btn{
   background:white;
-  color:var(--navy) !important;
-  padding:8px 20px;
+  color:var(--navy)!important;
+  padding:10px 24px;
   border-radius:30px;
   font-weight:600;
 }
 
 /* ===== HERO ===== */
 .hero{
-  padding:160px 0 100px;
+  padding:180px 0 100px;
 }
 
 .hero-box{
   width:90%;
+  max-width: 1200px;
   margin:auto;
   display:grid;
-  grid-template-columns:1fr 1fr;
+  grid-template-columns: 1.2fr 1fr;
   align-items:center;
-  gap:60px;
+  gap:50px;
 }
 
 .hero h1{
-  font-size:52px;
+  font-size:clamp(32px, 5vw, 56px);
   line-height:1.2;
 }
 
-.hero span{color:#7fb3ff}
+.hero span{color:var(--accent)}
 
 .hero p{
   margin:25px 0;
-  font-size:16px;
-  max-width:520px;
+  max-width:550px;
   color:#dbe6ff;
+  font-size: 17px;
+}
+
+.hero-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
 }
 
 .hero-buttons a{
-  display:inline-block;
-  margin-right:15px;
-  padding:12px 28px;
+  padding:14px 30px;
   border-radius:30px;
   text-decoration:none;
-  font-weight:500;
+  font-weight:600;
+  text-align: center;
+  flex: 1;
+  min-width: 180px;
 }
 
-.primary{
-  background:white;
-  color:var(--navy);
-}
+.primary{ background:white; color:var(--navy); }
+.secondary{ border:2px solid white; color:white; }
 
-.secondary{
-  border:2px solid white;
-  color:white;
+.hero-img-container {
+  display: flex;
+  justify-content: center;
 }
 
 .hero img{
   width:100%;
+  max-width: 450px;
   animation:float 5s ease-in-out infinite;
 }
 
 @keyframes float{
   0%,100%{transform:translateY(0)}
-  50%{transform:translateY(-15px)}
+  50%{transform:translateY(-20px)}
 }
 
-/* ===== SECTION ===== */
-.section{
-  padding:100px 0;
-}
+/* ===== VISION SECTION ===== */
+.section{ padding:80px 0; }
+.container{ width:90%; max-width:1200px; margin:auto; }
+.title{ text-align:center; margin-bottom:50px; }
+.title h2{ font-size: clamp(28px, 4vw, 44px); }
+.title span{color:var(--accent)}
 
-.container{
-  width:90%;
-  max-width:1200px;
-  margin:auto;
-}
-
-.title{
-  text-align:center;
-  margin-bottom:60px;
-}
-
-.title h2{
-  font-size:42px;
-}
-
-.title span{color:#7fb3ff}
-
-/* ===== VISION ===== */
 .vision{
   display:grid;
-  grid-template-columns:1fr 1fr;
+  grid-template-columns: 1fr 1fr;
   gap:50px;
   align-items:center;
 }
 
-.vision h3{
-  margin-bottom:10px;
-  color:#7fb3ff;
-}
-
-.vision p{
-  margin-bottom:20px;
-  color:#dbe6ff;
-}
+.vision h3{ color:var(--accent); margin-bottom:10px; font-size: 24px;}
+.vision p{ margin-bottom:20px; color:#dbe6ff; line-height: 1.6;}
 
 .vision img{
   width:100%;
+  max-width: 500px;
   border-radius:20px;
   background:white;
   padding:20px;
 }
 
-/* ===== SERVICES ===== */
-.services{
+/* ===== INITIATIVES ===== */
+.initiatives{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap:30px;
 }
 
 .card{
   background:white;
-  padding:30px;
-  border-radius:20px;
+  padding:40px 30px;
+  border-radius:22px;
   text-align:center;
   color:var(--navy);
-  box-shadow:0 20px 40px rgba(0,0,0,0.3);
+  box-shadow:0 15px 35px rgba(0,0,0,0.2);
   transition:0.3s;
 }
 
-.card:hover{
-  transform:translateY(-10px);
-}
+.card:hover{ transform:translateY(-10px); box-shadow:0 20px 45px rgba(0,0,0,0.3); }
+.card h4{ margin-bottom:15px; font-size: 22px; }
+.card p { font-size: 15px; color: #555; }
 
-.card h4{
-  margin-bottom:10px;
+.card a{
+  display:inline-block;
+  margin-top:20px;
+  color:var(--navy-light);
+  font-weight:700;
+  text-decoration:none;
+  border-bottom: 2px solid var(--accent);
 }
 
 /* ===== FOOTER ===== */
 footer{
   background:#05132b;
-  padding:50px 0;
+  padding:60px 0;
   text-align:center;
 }
 
-footer img{
-  height:60px;
-  margin-bottom:10px;
-}
+footer img{ height:60px; margin-bottom:15px; }
+footer p{ font-size:14px; color:#dbe6ff; line-height: 1.8; }
 
-footer p{
-  font-size:14px;
-  color:#dbe6ff;
-}
-
-/* ===== RESPONSIVE ===== */
+/* ===== RESPONSIVE MEDIA QUERIES ===== */
 @media(max-width:900px){
-  .hero-box,.vision{
-    grid-template-columns:1fr;
-    text-align:center;
+  .hero { padding: 140px 0 60px; }
+  .hero-box, .vision{
+    grid-template-columns: 1fr;
+    text-align: center;
   }
+  .hero p { margin: 25px auto; }
+  .hero-buttons { justify-content: center; }
+  .hero-img-container { order: -1; } /* Image comes first on mobile */
+  
+  .vision img { margin: 0 auto; }
+}
+
+@media(max-width: 480px) {
+  .hero h1 { font-size: 32px; }
+  .hero-buttons a { width: 100%; flex: none; }
 }
 </style>
 </head>
@@ -241,34 +285,40 @@ footer p{
 <header>
   <div class="navbar">
     <div class="logo">
-      <img src="image/dwija-logo.png">
-      D-ROBOTICS
+      <img src="image/dwija-logo.png" alt="Dwija Logo">
+      DWIJA
     </div>
-    <div class="nav">
-      <a href="#">Home</a>
-      <a href="#vision">Vision</a>
-      <a href="#services">Services</a>
-      <a href="#contact">Contact</a>
-      <a href="login.html" class="btn">Login</a>
+    
+    <div class="hamburger" onclick="toggleMenu()">
+      <i class="fa-solid fa-bars" id="menu-icon"></i>
+    </div>
+
+    <div class="nav-menu" id="navMenu">
+      <a href="#" onclick="toggleMenu()">Home</a>
+      <a href="#vision" onclick="toggleMenu()">Vision</a>
+      <a href="#initiatives" onclick="toggleMenu()">Initiatives</a>
+      <a href="#contact" onclick="toggleMenu()">Contact</a>
+      <a href="d-robotics.html" class="btn">D-ROBOTICS</a>
     </div>
   </div>
 </header>
 
 <section class="hero">
   <div class="hero-box">
-    <div>
-      <h1>D-ROBOTICS <span>by DWIJA</span></h1>
-      <p>
-        A premium robotics and technology company founded by
-        <strong>AKSHAYA</strong>, solving real-world problems with intelligence.
-      </p>
-      <div class="hero-buttons">
-        <a href="customized-robot.html" class="primary">Customized Robots</a>
-        <a href="#vision" class="secondary">Our Vision</a>
-      </div>
+    <div class="hero-img-container">
+      <img src="image/akshaya-logo.png" alt="Founder Akshaya">
     </div>
     <div>
-      <img src="image/robo-img.jpeg">
+      <h1>DWIJA <span>Problem-solving platform.</span></h1>
+      <p>
+        DWIJA is a future-focused innovation ecosystem founded by
+        <strong>AKSHAYA</strong>, bringing technology, robotics,
+        intelligence, and events together under one powerful vision.
+      </p>
+      <div class="hero-buttons">
+        <a href="#initiatives" class="primary">Explore Initiatives</a>
+        <a href="#vision" class="secondary">Our Vision</a>
+      </div>
     </div>
   </div>
 </section>
@@ -281,54 +331,89 @@ footer p{
 
     <div class="vision">
       <div>
-        <h3>Vision</h3>
-        <p>Empowering people through intelligent problem-solving.</p>
+        <h3>Our Vision</h3>
+        <p>
+          To build a powerful platform that connects innovation,
+          intelligence, and impact — shaping the future through technology.
+        </p>
 
-        <h3>Mission</h3>
-        <p>Deliver practical robotics and technology solutions.</p>
+        <h3>Our Mission</h3>
+        <p>
+          To create and support initiatives like robotics, AI,
+          automation, and events that solve real-world problems efficiently.
+        </p>
       </div>
 
       <div>
-        <img src="image/akshaya-logo.png">
+        <img src="image/dwija-logo.png" alt="Dwija Vision">
       </div>
     </div>
   </div>
 </section>
 
-<section class="section" id="services">
+<section class="section" id="initiatives">
   <div class="container">
     <div class="title">
-      <h2>Our <span>Expertise</span></h2>
+      <h2>DWIJA <span>Initiatives</span></h2>
     </div>
 
-    <div class="services">
+    <div class="initiatives">
       <div class="card">
-        <h4>Robotics</h4>
-        <p>Custom automation & robotics systems.</p>
+        <i class="fa-solid fa-robot" style="font-size: 40px; color: var(--navy-light); margin-bottom: 15px;"></i>
+        <h4>D-ROBOTICS</h4>
+        <p>
+          Advanced robotics, AI, automation, and custom intelligent systems
+          built under the DWIJA ecosystem.
+        </p>
+        <a href="d-robotics.html">Visit D-ROBOTICS →</a>
       </div>
+
       <div class="card">
-        <h4>AI & Software</h4>
-        <p>Smart AI-powered software solutions.</p>
+        <i class="fa-solid fa-calendar-star" style="font-size: 40px; color: var(--navy-light); margin-bottom: 15px;"></i>
+        <h4>Technology Events</h4>
+        <p>
+          Innovation expos, robotics showcases, and future-tech events
+          conducted globally by DWIJA.
+        </p>
       </div>
+
       <div class="card">
-        <h4>Training</h4>
-        <p>Industry-ready technical training.</p>
-      </div>
-      <div class="card">
-        <h4>Consulting</h4>
-        <p>Technology consulting services.</p>
+        <i class="fa-solid fa-user-graduate" style="font-size: 40px; color: var(--navy-light); margin-bottom: 15px;"></i>
+        <h4>Education & Training</h4>
+        <p>
+          Skill development, workshops, and hands-on training
+          for the next generation of engineers.
+        </p>
       </div>
     </div>
   </div>
 </section>
 
 <footer id="contact">
-  <img src="image/akshaya-logo.png">
+  <img src="image/akshaya-logo.png" alt="Akshaya Logo">
   <p>
-    © 2025 <strong>D-ROBOTICS</strong> by DWIJA<br>
-    Founder & CEO: <strong>AKSHAYA</strong>
+    © 2025 <strong>DWIJA</strong><br>
+    Founded by <strong>AKSHAYA</strong><br>
+    D-ROBOTICS is an official initiative of DWIJA
   </p>
 </footer>
+
+<script>
+function toggleMenu() {
+    const menu = document.getElementById('navMenu');
+    const icon = document.getElementById('menu-icon');
+    menu.classList.toggle('active');
+    
+    // Toggle between bars and xmark icons
+    if (menu.classList.contains('active')) {
+        icon.classList.remove('fa-bars');
+        icon.classList.add('fa-xmark');
+    } else {
+        icon.classList.remove('fa-xmark');
+        icon.classList.add('fa-bars');
+    }
+}
+</script>
 
 </body>
 </html>

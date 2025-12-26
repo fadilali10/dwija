@@ -1,221 +1,235 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="icon" type="image/png" href="image/dwija-logo.png">
+
+<link rel="icon" sizes="192x192" href="image/dwija-logo.png">
+
+<link rel="apple-touch-icon" href="image/dwija-logo.png">
+
+<meta property="og:image" content="https://dwija.org/image/dwija-logo.png">
 <meta charset="UTF-8">
 <title>D-ROBOTICS | Customize Robot</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
-:root{
-  --blue:#0a2a66;
-}
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family:'Poppins',sans-serif;
-}
+:root{ --blue:#0a2a66; --blue-light: #16408b; }
+*{ margin:0; padding:0; box-sizing:border-box; font-family:'Poppins',sans-serif; }
+
 body{
-  background:
-    linear-gradient(rgba(10,42,102,0.9), rgba(10,42,102,0.9)),
-    url("https://png.pngtree.com/background/20210710/original/pngtree-smart-robot-arm-advertising-background-picture-image_969305.jpg");
-  background-size:cover;
-  background-position:center;
-  background-attachment:fixed;
-  color:white;
+    background: linear-gradient(rgba(10,42,102,0.9), rgba(10,42,102,0.9)), 
+                url("https://png.pngtree.com/background/20210710/original/pngtree-smart-robot-arm-advertising-background-picture-image_969305.jpg");
+    background-size:cover; background-position:center; background-attachment:fixed;
+    color:white; min-height:100vh;
 }
-header{
-  background:rgba(10,42,102,0.95);
+
+/* ===== NAVBAR ===== */
+header{ background:rgba(10,42,102,0.95); position: sticky; top: 0; z-index: 1000; border-bottom: 1px solid rgba(255,255,255,0.1); }
+.navbar{ width:90%; max-width: 1200px; margin:auto; padding:12px 0; display:flex; justify-content:space-between; align-items:center; }
+.logo{ display:flex; align-items:center; gap:10px; font-size:18px; font-weight:700; }
+.logo img{ height:38px }
+
+.nav-actions { display: flex; align-items: center; gap: 10px; }
+.nav-actions a, .nav-actions button{
+    background:white; color:var(--blue); padding:7px 18px; border-radius:30px;
+    border:none; text-decoration:none; font-size: 13px; font-weight:600; cursor:pointer; transition: 0.3s;
 }
-.navbar{
-  width:90%;
-  margin:auto;
-  padding:15px 0;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
+.nav-actions a:hover { background: #eef2ff; }
+
+/* ===== FORM SECTION ===== */
+.section{ padding: 60px 20px; display: flex; justify-content: center; align-items: center; }
+.form-box{ 
+    width: 100%; max-width:600px; background:white; padding:35px; border-radius:24px; 
+    color:var(--blue); box-shadow: 0 15px 35px rgba(0,0,0,0.4); 
 }
-.logo{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  font-size:20px;
-  font-weight:600;
+.form-box h2 { margin-bottom: 10px; text-align: center; font-size: 24px; }
+.form-box p { text-align: center; color: #666; font-size: 14px; margin-bottom: 25px; }
+
+.input-container { margin-bottom: 15px; }
+.input-container label { display: block; font-size: 12px; font-weight: 600; margin-bottom: 5px; color: #555; text-transform: uppercase; }
+
+.form-box textarea{ 
+    width:100%; height:80px; padding:12px 16px; border-radius:12px; 
+    border:1px solid #dce4ff; font-size:14px; outline: none; display:block; 
+    resize: none; transition: 0.3s;
 }
-.logo img{height:42px}
-.nav-actions a,.nav-actions button{
-  background:white;
-  color:var(--blue);
-  padding:8px 20px;
-  border-radius:30px;
-  border:none;
-  text-decoration:none;
-  font-weight:600;
-  cursor:pointer;
+.form-box textarea:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(10,42,102,0.1); }
+
+.form-box button{ 
+    width:100%; padding:14px; border:none; border-radius:30px; 
+    background:var(--blue); color:white; font-size:16px; font-weight:600; 
+    cursor:pointer; transition: 0.3s; margin-top: 10px;
 }
-.section{
-  padding:90px 0;
+.form-box button:hover { background: var(--blue-light); transform: translateY(-2px); }
+.form-box button:disabled { background: #ccc; cursor: not-allowed; transform: none; }
+
+/* ===== MODALS ===== */
+.modal { display: none; position: fixed; z-index: 10000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(5px); }
+.modal-content { 
+    background: white; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    padding: 35px; border-radius: 25px; width: 90%; max-width: 400px; text-align: center; color: var(--blue); 
 }
-.form-box{
-  max-width:650px;
-  margin:auto;
-  background:white;
-  padding:40px;
-  border-radius:22px;
-  color:#0a2a66;
-  box-shadow:0 30px 70px rgba(0,0,0,.4);
-  transition: all 0.3s ease;
+.modal-content i { font-size: 50px; margin-bottom: 15px; }
+.modal-content button { 
+    margin: 10px 5px 0; padding: 12px 25px; border-radius: 30px; border: none; 
+    background: var(--blue); color: white; font-weight: 600; cursor: pointer; width: 100%;
 }
-.form-box h2{
-  text-align:center;
-  margin-bottom:25px;
-}
-.form-box textarea{
-  width:100%;
-  height:85px;
-  padding:14px;
-  margin-bottom:18px;
-  border-radius:14px;
-  border:1px solid #cdd9ff;
-  resize:none;
-}
-.form-box button{
-  width:100%;
-  padding:14px;
-  border:none;
-  border-radius:30px;
-  background:var(--blue);
-  color:white;
-  font-size:16px;
-  font-weight:600;
-  cursor:pointer;
-}
-.thank-you{
-  text-align:center;
-  margin-top:20px;
-  color:green;
-  font-weight:600;
-  font-size:18px;
-}
-footer{
-  margin-top:60px;
-  padding:30px 0;
-  text-align:center;
-  background:#061b40;
-}
-footer p{
-  font-size:14px;
-  color:#dce6ff;
+.btn-secondary { background: #eceff5 !important; color: #555 !important; }
+
+/* ===== RESPONSIVE MEDIA QUERIES ===== */
+@media (max-width: 600px) {
+    .navbar { width: 95%; }
+    .logo span { display: none; } /* Hide 'D-ROBOTICS' text on very small screens to save space */
+    .form-box { padding: 25px 20px; border-radius: 20px; }
+    .form-box h2 { font-size: 20px; }
+    .section { padding: 40px 15px; }
+    .nav-actions a, .nav-actions button { padding: 6px 15px; font-size: 12px; }
 }
 </style>
 </head>
-
 <body>
 
-<header>
-  <div class="navbar">
-    <div class="logo">
-      <img src="image/dwija-logo.png">
-      D-ROBOTICS
+    <header>
+        <div class="navbar">
+            <div class="logo">
+                <img src="image/dwija-logo.png" alt="Logo">
+                <span>D-ROBOTICS</span>
+            </div>
+            <div class="nav-actions">
+                <a href="d-robotics.html">Home</a>
+                <span id="authArea"><a href="login.html">Login</a></span>
+            </div>
+        </div>
+    </header>
+
+    <section class="section">
+        <div class="form-box">
+            <h2>Custom Robot Request</h2>
+            <p>Tell us what you need and we'll build it for you.</p>
+            
+            <div class="input-container">
+                <label>What robot do you need?</label>
+                <textarea id="what" placeholder="e.g. A security drone with thermal imaging..."></textarea>
+            </div>
+            
+            <div class="input-container">
+                <label>Where will it be used?</label>
+                <textarea id="where" placeholder="e.g. Outdoor construction site, indoor hospital..."></textarea>
+            </div>
+            
+            <div class="input-container">
+                <label>When do you need it?</label>
+                <textarea id="when" placeholder="e.g. Within 3 months..."></textarea>
+            </div>
+            
+            <div class="input-container">
+                <label>Which model/type preference?</label>
+                <textarea id="which" placeholder="e.g. Track-based, humanoid, or 4-wheeled..."></textarea>
+            </div>
+            
+            <div class="input-container">
+                <label>Expected Budget</label>
+                <textarea id="budget" placeholder="e.g. $2000 - $5000"></textarea>
+            </div>
+            
+            <button id="submitBtn" onclick="submitRequest()">Submit Requirement</button>
+        </div>
+    </section>
+
+<div id="successModal" class="modal">
+    <div class="modal-content">
+        <i class="fa-solid fa-circle-check" style="color: #28a745;"></i>
+        <h2>Thank You!</h2>
+        <p>Your request has been saved. Our team will contact you shortly.</p>
+        <button onclick="closeModals()">OK</button>
     </div>
-    <div class="nav-actions">
-      <a href="index.html">Home</a>
-      <button onclick="logout()">Logout</button>
+</div>
+
+<div id="loginModal" class="modal">
+    <div class="modal-content">
+        <i class="fa-solid fa-lock" style="color: #dc3545;"></i>
+        <h2>Login Required</h2>
+        <p>Please login to your DWIJA account to submit customization requests.</p>
+        <button onclick="window.location.href='login.html'">Login Now</button>
+        <button class="btn-secondary" onclick="window.location.href='d-robotics.html'">Return to Home</button>
     </div>
-  </div>
-</header>
-
-<section class="section">
-  <div class="form-box">
-    <h2>Customize Your Robot</h2>
-
-    <textarea id="what" placeholder="WHAT – What robot do you need?"></textarea>
-    <textarea id="where" placeholder="WHERE – Usage location?"></textarea>
-    <textarea id="when" placeholder="WHEN – Delivery timeline?"></textarea>
-    <textarea id="which" placeholder="WHICH – Type or model?"></textarea>
-    <textarea id="budget" placeholder="HOW MUCH – Budget?"></textarea>
-
-    <button onclick="submitRequest()">Submit Requirement</button>
-
-    <div class="thank-you" id="thankYou" style="display:none;">
-      ✅ Thank you! Your request has been submitted.
-    </div>
-  </div>
-</section>
-
-<footer>
-  <p>© 2025 <strong>D-ROBOTICS</strong> by DWIJA</p>
-</footer>
+</div>
 
 <script>
-/* SUPABASE SETUP */
-const supabase = supabase.createClient(
-  "https://buhuqdhpnoheqiayucsn.supabase.co",
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ1aHVxZGhwbm9oZXFpYXl1Y3NuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjY0MDYwNjQsImV4cCI6MjA4MTk4MjA2NH0.ClggXGY3GZ71aZJoUtKnXnHwBIaSkdxVIN4FM-Fg4ZM"
-);
+    // Supabase Setup
+    const SUPABASE_URL = "https://tvyllslbogeeaaqxywin.supabase.co";
+    const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR2eWxsc2xib2dlZWFhcXh5d2luIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjY3MjcxOTQsImV4cCI6MjA4MjMwMzE5NH0.NvuBeCH5VSPQe88DRxohU0mRcRhV8u1_OsocIi8Vlsk";
+    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-let user = null;
+    let loggedInUser = null;
 
-/* FORCE LOGIN */
-async function checkLogin() {
-  const { data, error } = await supabase.auth.getSession();
-  if(error || !data.session){
-    window.location.href = "login.html";
-    return;
-  }
-  user = data.session.user;
-}
+    async function checkUserSession() {
+        const { data: { session } } = await supabaseClient.auth.getSession();
+        if (!session) {
+            document.getElementById("loginModal").style.display = "block";
+            document.getElementById("submitBtn").disabled = true;
+        } else {
+            loggedInUser = session.user;
+            document.getElementById("authArea").innerHTML = '<button onclick="handleLogout()">Logout</button>';
+        }
+    }
+    checkUserSession();
 
-// Run login check immediately
-checkLogin();
+    async function submitRequest() {
+        if (!loggedInUser) {
+            document.getElementById("loginModal").style.display = "block";
+            return;
+        }
 
-/* SUBMIT REQUEST */
-async function submitRequest() {
-  if(!user){
-    alert("Please login first");
-    return;
-  }
+        const btn = document.getElementById("submitBtn");
+        const payload = {
+            what: document.getElementById("what").value.trim(),
+            where_use: document.getElementById("where").value.trim(),
+            when_need: document.getElementById("when").value.trim(),
+            which_type: document.getElementById("which").value.trim(),
+            budget: document.getElementById("budget").value.trim()
+        };
 
-  const what = document.getElementById("what").value.trim();
-  const where = document.getElementById("where").value.trim();
-  const when = document.getElementById("when").value.trim();
-  const which = document.getElementById("which").value.trim();
-  const budget = document.getElementById("budget").value.trim();
+        if (Object.values(payload).some(v => v === "")) {
+            alert("Please provide details in all fields.");
+            return;
+        }
 
-  if(!what || !where || !when || !which || !budget){
-    alert("Fill all fields");
-    return;
-  }
+        btn.disabled = true;
+        btn.innerText = "Processing...";
 
-  const { error } = await supabase.from("robot_requests").insert({
-    user_id: user.id,
-    what,
-    where_use: where,
-    when_need: when,
-    which_type: which,
-    budget
-  });
+        try {
+            const { error } = await supabaseClient
+                .from("robot_requests")
+                .insert([{
+                    user_id: loggedInUser.id,
+                    ...payload
+                }]);
 
-  if(error){
-    alert(error.message);
-  } else {
-    // Clear form
-    document.querySelectorAll("textarea").forEach(t => t.value = "");
-    // Show thank you message
-    const msg = document.getElementById("thankYou");
-    msg.style.display = "block";
-    setTimeout(() => msg.style.display = "none", 5000);
-  }
-}
+            if (error) throw error;
+            document.querySelectorAll("textarea").forEach(t => t.value = "");
+            document.getElementById("successModal").style.display = "block";
 
-/* LOGOUT */
-async function logout(){
-  await supabase.auth.signOut();
-  window.location.href = "login.html";
-}
+        } catch (err) {
+            alert("Error: " + err.message);
+        } finally {
+            btn.disabled = false;
+            btn.innerText = "Submit Requirement";
+        }
+    }
+
+    async function handleLogout() {
+        await supabaseClient.auth.signOut();
+        window.location.href = "login.html";
+    }
+
+    function closeModals() {
+        document.getElementById("successModal").style.display = "none";
+        document.getElementById("loginModal").style.display = "none";
+    }
 </script>
 
 </body>
