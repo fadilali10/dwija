@@ -2,102 +2,77 @@
 <html lang="en">
 <head>
     <link rel="icon" type="image/png" href="image/dwija-logo.png">
+    <link rel="icon" sizes="192x192" href="image/dwija-logo.png">
+    <link rel="apple-touch-icon" href="image/dwija-logo.png">
+    <meta property="og:image" content="https://dwija.org/image/dwija-logo.png">
+    <meta charset="UTF-8">
+    <title>D-ROBOTICS | Customize Robot</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-<link rel="icon" sizes="192x192" href="image/dwija-logo.png">
+    <style>
+        :root{ --blue:#0a2a66; --blue-light: #16408b; }
+        *{ margin:0; padding:0; box-sizing:border-box; font-family:'Poppins',sans-serif; }
 
-<link rel="apple-touch-icon" href="image/dwija-logo.png">
+        body{
+            background: linear-gradient(rgba(10,42,102,0.9), rgba(10,42,102,0.9)), 
+                        url("https://png.pngtree.com/background/20210710/original/pngtree-smart-robot-arm-advertising-background-picture-image_969305.jpg");
+            background-size:cover; background-position:center; background-attachment:fixed;
+            color:white; min-height:100vh;
+        }
 
-<meta property="og:image" content="https://dwija.org/image/dwija-logo.png">
-<meta charset="UTF-8">
-<title>D-ROBOTICS | Customize Robot</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+        /* ===== NAVBAR ===== */
+        header{ background:rgba(10,42,102,0.95); position: sticky; top: 0; z-index: 1000; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .navbar{ width:90%; max-width: 1200px; margin:auto; padding:12px 0; display:flex; justify-content:space-between; align-items:center; }
+        .logo{ display:flex; align-items:center; gap:10px; font-size:18px; font-weight:700; }
+        .logo img{ height:38px }
 
-<style>
-:root{ --blue:#0a2a66; --blue-light: #16408b; }
-*{ margin:0; padding:0; box-sizing:border-box; font-family:'Poppins',sans-serif; }
+        .nav-actions { display: flex; align-items: center; gap: 10px; }
+        .nav-actions a, .nav-actions button{
+            background:white; color:var(--blue); padding:7px 18px; border-radius:30px;
+            border:none; text-decoration:none; font-size: 13px; font-weight:600; cursor:pointer; transition: 0.3s;
+        }
 
-body{
-    background: linear-gradient(rgba(10,42,102,0.9), rgba(10,42,102,0.9)), 
-                url("https://png.pngtree.com/background/20210710/original/pngtree-smart-robot-arm-advertising-background-picture-image_969305.jpg");
-    background-size:cover; background-position:center; background-attachment:fixed;
-    color:white; min-height:100vh;
-}
+        /* ===== FORM SECTION ===== */
+        .section{ padding: 60px 20px; display: flex; justify-content: center; align-items: center; }
+        .form-box{ 
+            width: 100%; max-width:600px; background:white; padding:35px; border-radius:24px; 
+            color:var(--blue); box-shadow: 0 15px 35px rgba(0,0,0,0.4); 
+        }
+        .form-box h2 { margin-bottom: 10px; text-align: center; font-size: 24px; }
+        .form-box p { text-align: center; color: #666; font-size: 14px; margin-bottom: 25px; }
 
-/* ===== NAVBAR ===== */
-header{ background:rgba(10,42,102,0.95); position: sticky; top: 0; z-index: 1000; border-bottom: 1px solid rgba(255,255,255,0.1); }
-.navbar{ width:90%; max-width: 1200px; margin:auto; padding:12px 0; display:flex; justify-content:space-between; align-items:center; }
-.logo{ display:flex; align-items:center; gap:10px; font-size:18px; font-weight:700; }
-.logo img{ height:38px }
+        .input-container { margin-bottom: 15px; }
+        .input-container label { display: block; font-size: 12px; font-weight: 600; margin-bottom: 5px; color: #555; text-transform: uppercase; }
 
-.nav-actions { display: flex; align-items: center; gap: 10px; }
-.nav-actions a, .nav-actions button{
-    background:white; color:var(--blue); padding:7px 18px; border-radius:30px;
-    border:none; text-decoration:none; font-size: 13px; font-weight:600; cursor:pointer; transition: 0.3s;
-}
-.nav-actions a:hover { background: #eef2ff; }
+        .form-box textarea{ 
+            width:100%; height:80px; padding:12px 16px; border-radius:12px; 
+            border:1px solid #dce4ff; font-size:14px; outline: none; display:block; 
+            resize: none; transition: 0.3s;
+        }
 
-/* ===== FORM SECTION ===== */
-.section{ padding: 60px 20px; display: flex; justify-content: center; align-items: center; }
-.form-box{ 
-    width: 100%; max-width:600px; background:white; padding:35px; border-radius:24px; 
-    color:var(--blue); box-shadow: 0 15px 35px rgba(0,0,0,0.4); 
-}
-.form-box h2 { margin-bottom: 10px; text-align: center; font-size: 24px; }
-.form-box p { text-align: center; color: #666; font-size: 14px; margin-bottom: 25px; }
+        .form-box button{ 
+            width:100%; padding:14px; border:none; border-radius:30px; 
+            background:var(--blue); color:white; font-size:16px; font-weight:600; 
+            cursor:pointer; transition: 0.3s; margin-top: 10px;
+        }
+        .form-box button:disabled { background: #ccc; cursor: not-allowed; }
 
-.input-container { margin-bottom: 15px; }
-.input-container label { display: block; font-size: 12px; font-weight: 600; margin-bottom: 5px; color: #555; text-transform: uppercase; }
-
-.form-box textarea{ 
-    width:100%; height:80px; padding:12px 16px; border-radius:12px; 
-    border:1px solid #dce4ff; font-size:14px; outline: none; display:block; 
-    resize: none; transition: 0.3s;
-}
-.form-box textarea:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(10,42,102,0.1); }
-
-.form-box button{ 
-    width:100%; padding:14px; border:none; border-radius:30px; 
-    background:var(--blue); color:white; font-size:16px; font-weight:600; 
-    cursor:pointer; transition: 0.3s; margin-top: 10px;
-}
-.form-box button:hover { background: var(--blue-light); transform: translateY(-2px); }
-.form-box button:disabled { background: #ccc; cursor: not-allowed; transform: none; }
-
-/* ===== MODALS ===== */
-.modal { display: none; position: fixed; z-index: 10000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(5px); }
-.modal-content { 
-    background: white; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-    padding: 35px; border-radius: 25px; width: 90%; max-width: 400px; text-align: center; color: var(--blue); 
-}
-.modal-content i { font-size: 50px; margin-bottom: 15px; }
-.modal-content button { 
-    margin: 10px 5px 0; padding: 12px 25px; border-radius: 30px; border: none; 
-    background: var(--blue); color: white; font-weight: 600; cursor: pointer; width: 100%;
-}
-.btn-secondary { background: #eceff5 !important; color: #555 !important; }
-
-/* ===== RESPONSIVE MEDIA QUERIES ===== */
-@media (max-width: 600px) {
-    .navbar { width: 95%; }
-    .logo span { display: none; } /* Hide 'D-ROBOTICS' text on very small screens to save space */
-    .form-box { padding: 25px 20px; border-radius: 20px; }
-    .form-box h2 { font-size: 20px; }
-    .section { padding: 40px 15px; }
-    .nav-actions a, .nav-actions button { padding: 6px 15px; font-size: 12px; }
-}
-</style>
+        /* ===== MODALS ===== */
+        .modal { display: none; position: fixed; z-index: 10000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(5px); }
+        .modal-content { 
+            background: white; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            padding: 35px; border-radius: 25px; width: 90%; max-width: 400px; text-align: center; color: var(--blue); 
+        }
+    </style>
 </head>
 <body>
 
     <header>
         <div class="navbar">
-            <div class="logo">
-                <img src="image/dwija-logo.png" alt="Logo">
-                <span>D-ROBOTICS</span>
-            </div>
+            <div class="logo"><img src="image/dwija-logo.png" alt="Logo"> <span>D-ROBOTICS</span></div>
             <div class="nav-actions">
                 <a href="index.html">Home</a>
                 <span id="authArea"><a href="login.html">Login</a></span>
@@ -117,7 +92,7 @@ header{ background:rgba(10,42,102,0.95); position: sticky; top: 0; z-index: 1000
             
             <div class="input-container">
                 <label>Where will it be used?</label>
-                <textarea id="where" placeholder="e.g. Outdoor construction site, indoor hospital..."></textarea>
+                <textarea id="where" placeholder="e.g. Outdoor construction site..."></textarea>
             </div>
             
             <div class="input-container">
@@ -127,7 +102,7 @@ header{ background:rgba(10,42,102,0.95); position: sticky; top: 0; z-index: 1000
             
             <div class="input-container">
                 <label>Which model/type preference?</label>
-                <textarea id="which" placeholder="e.g. Track-based, humanoid, or 4-wheeled..."></textarea>
+                <textarea id="which" placeholder="e.g. Track-based, humanoid..."></textarea>
             </div>
             
             <div class="input-container">
@@ -139,53 +114,61 @@ header{ background:rgba(10,42,102,0.95); position: sticky; top: 0; z-index: 1000
         </div>
     </section>
 
-<div id="successModal" class="modal">
-    <div class="modal-content">
-        <i class="fa-solid fa-circle-check" style="color: #28a745;"></i>
-        <h2>Thank You!</h2>
-        <p>Your request has been saved. Our team will contact you shortly.</p>
-        <button onclick="closeModals()">OK</button>
+    <div id="successModal" class="modal">
+        <div class="modal-content">
+            <i class="fa-solid fa-circle-check" style="font-size: 50px; color: #28a745;"></i>
+            <h2 style="margin-top: 15px;">Thank You!</h2>
+            <p>All details have been sent. We will contact you shortly.</p>
+            <button onclick="location.reload()" style="margin-top:20px; padding:12px; width:100%; border-radius:30px; border:none; background:var(--blue); color:white; font-weight:600; cursor:pointer;">OK</button>
+        </div>
     </div>
-</div>
-
-<div id="loginModal" class="modal">
-    <div class="modal-content">
-        <i class="fa-solid fa-lock" style="color: #dc3545;"></i>
-        <h2>Login Required</h2>
-        <p>Please login to your DWIJA account to submit customization requests.</p>
-        <button onclick="window.location.href='login.html'">Login Now</button>
-        <button class="btn-secondary" onclick="window.location.href='d-robotics.html'">Return to Home</button>
-    </div>
-</div>
 
 <script>
-    // Supabase Setup
     const SUPABASE_URL = "https://tvyllslbogeeaaqxywin.supabase.co";
     const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR2eWxsc2xib2dlZWFhcXh5d2luIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjY3MjcxOTQsImV4cCI6MjA4MjMwMzE5NH0.NvuBeCH5VSPQe88DRxohU0mRcRhV8u1_OsocIi8Vlsk";
+    
+    // YOUR GOOGLE SCRIPT URL
+    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzjpQ72rbv0jWXKkAirna2ufpxZVxRkZCC-W19AUxA2oS3rHtqy8n-W6iQ4bgDH-qlKUg/exec";
+    
     const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
     let loggedInUser = null;
 
     async function checkUserSession() {
         const { data: { session } } = await supabaseClient.auth.getSession();
         if (!session) {
-            document.getElementById("loginModal").style.display = "block";
-            document.getElementById("submitBtn").disabled = true;
+            window.location.href = 'login.html';
         } else {
             loggedInUser = session.user;
-            document.getElementById("authArea").innerHTML = '<button onclick="handleLogout()">Logout</button>';
+            document.getElementById("authArea").innerHTML = '<button onclick="supabaseClient.auth.signOut().then(()=>location.reload())" style="background:white; color:var(--blue); padding:7px 18px; border-radius:30px; border:none; font-weight:600; cursor:pointer;">Logout</button>';
         }
     }
     checkUserSession();
 
     async function submitRequest() {
-        if (!loggedInUser) {
-            document.getElementById("loginModal").style.display = "block";
-            return;
-        }
-
         const btn = document.getElementById("submitBtn");
+        btn.disabled = true;
+        btn.innerText = "Submitting...";
+
+        // 1. Get user profile details
+        let fullName = "Unknown User";
+        let phone = "Not Provided";
+        try {
+            const { data: profile } = await supabaseClient
+                .from('profiles')
+                .select('full_name, phone_number')
+                .eq('id', loggedInUser.id)
+                .single();
+            if (profile) {
+                fullName = profile.full_name || "Unknown";
+                phone = profile.phone_number || "N/A";
+            }
+        } catch (e) { console.error("Profile fetch error", e); }
+
+        // 2. Prepare Payload with all 5 fields
         const payload = {
+            user_name: fullName,
+            user_email: loggedInUser.email,
+            phone_number: phone,
             what: document.getElementById("what").value.trim(),
             where_use: document.getElementById("where").value.trim(),
             when_need: document.getElementById("when").value.trim(),
@@ -193,44 +176,32 @@ header{ background:rgba(10,42,102,0.95); position: sticky; top: 0; z-index: 1000
             budget: document.getElementById("budget").value.trim()
         };
 
+        // Validate
         if (Object.values(payload).some(v => v === "")) {
-            alert("Please provide details in all fields.");
+            alert("Please fill in all 5 fields.");
+            btn.disabled = false;
+            btn.innerText = "Submit Requirement";
             return;
         }
 
-        btn.disabled = true;
-        btn.innerText = "Processing...";
-
         try {
-            const { error } = await supabaseClient
-                .from("robot_requests")
-                .insert([{
-                    user_id: loggedInUser.id,
-                    ...payload
-                }]);
+            // 3. Save to Supabase
+            await supabaseClient.from("robot_requests").insert([{ user_id: loggedInUser.id, ...payload }]);
 
-            if (error) throw error;
-            document.querySelectorAll("textarea").forEach(t => t.value = "");
+            // 4. Send to Google Sheet
+            await fetch(GOOGLE_SCRIPT_URL, {
+                method: "POST",
+                mode: "no-cors",
+                body: JSON.stringify(payload)
+            });
+
             document.getElementById("successModal").style.display = "block";
-
         } catch (err) {
             alert("Error: " + err.message);
-        } finally {
             btn.disabled = false;
             btn.innerText = "Submit Requirement";
         }
     }
-
-    async function handleLogout() {
-        await supabaseClient.auth.signOut();
-        window.location.href = "login.html";
-    }
-
-    function closeModals() {
-        document.getElementById("successModal").style.display = "none";
-        document.getElementById("loginModal").style.display = "none";
-    }
 </script>
-
 </body>
 </html>
