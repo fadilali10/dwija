@@ -1,12 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="icon" type="image/png" href="image/dwija-logo.png">
+    <link rel="icon" sizes="192x192" href="image/dwija-logo.png">
+    <link rel="apple-touch-icon" href="image/dwija-logo.png">
+    <meta property="og:image" content="https://dwija.org/image/dwija-logo.png">
     <meta charset="UTF-8">
-    <title>DWIJA – Problem Solving Platform</title>
+    <title>DWIJA – ROBOTICS & SOFTWARE</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <style>
         :root {
@@ -16,23 +21,19 @@
             --accent: #7fb3ff;
         }
 
-        * {
-            margin: 0; padding: 0; box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
-            scroll-behavior: smooth;
-        }
+        * { margin:0; padding:0; box-sizing:border-box; font-family:'Poppins',sans-serif; scroll-behavior:smooth; }
 
         body {
-            background: linear-gradient(rgba(8,26,58,0.96), rgba(8,26,58,0.96)), url("image/rob-img.png");
+            background: linear-gradient(rgba(8,26,58,0.96), rgba(8,26,58,0.96)), url("image/rob1-img.png");
             background-size: cover; background-position: center; background-attachment: fixed;
             color: var(--white); overflow-x: hidden;
         }
 
-        /* ===== NAVIGATION ===== */
+        /* ===== NAVBAR ===== */
         header {
-            position: fixed; top: 0; width: 100%;
-            background: rgba(8,26,58,0.98); z-index: 1000;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
+            position: fixed; width: 100%; top: 0;
+            background: rgba(8,26,58,0.98); border-bottom: 1px solid rgba(255,255,255,0.1);
+            z-index: 1000;
         }
 
         .navbar {
@@ -40,27 +41,32 @@
             display: flex; justify-content: space-between; align-items: center; padding: 15px 0;
         }
 
-        .logo { display: flex; align-items: center; gap: 12px; font-size: 22px; font-weight: 700; }
+        .logo { display: flex; align-items: center; gap: 10px; font-size: 22px; font-weight: 700; }
         .logo img { height: 45px; }
 
-        .nav-menu { display: flex; align-items: center; }
-        .nav-menu a { margin-left: 25px; text-decoration: none; color: white; font-weight: 500; transition: 0.3s; }
-        .nav-menu a:hover { color: var(--accent); }
+        .nav-links { display: flex; align-items: center; }
+        .nav-links a { margin-left: 22px; text-decoration: none; color: white; font-weight: 500; transition: 0.3s; }
+        .nav-links a:hover { color: var(--accent); }
 
-        .hamburger { display: none; cursor: pointer; font-size: 24px; }
+        .btn-login { background: white; color: var(--navy)!important; padding: 8px 24px; border-radius: 30px; font-weight: 600; margin-left: 20px; }
+        .mobile-toggle { display: none; font-size: 24px; cursor: pointer; color: white; }
 
-        @media (max-width: 900px) {
-            .hamburger { display: block; }
-            .nav-menu {
-                position: fixed; top: 0; right: -100%; width: 75%; height: 100vh;
-                background: var(--navy); flex-direction: column; justify-content: center;
-                transition: 0.4s; box-shadow: -10px 0 30px rgba(0,0,0,0.5);
-            }
-            .nav-menu.active { right: 0; }
-            .nav-menu a { margin: 15px 0; font-size: 20px; }
+        /* ===== SIDEBAR (USER PROFILE) ===== */
+        .side-panel {
+            position: fixed; top: 0; right: -100%; width: 320px; height: 100%;
+            background: white; color: var(--navy); box-shadow: -10px 0 30px rgba(0,0,0,0.5);
+            transition: 0.4s; z-index: 2000; padding: 50px 30px; display: flex; flex-direction: column;
         }
+        .side-panel.active { right: 0; }
+        .user-details { text-align: center; margin-bottom: 30px; }
+        .user-details i { font-size: 60px; color: var(--navy-light); }
+        .logout-btn { 
+            background: #ff4d4d; color: white; border: none; padding: 12px; 
+            border-radius: 10px; cursor: pointer; margin-top: auto; font-weight: 600;
+        }
+        .logout-btn:disabled { background: #ccc; cursor: not-allowed; }
 
-        /* ===== HERO SECTION ===== */
+        /* ===== HERO ===== */
         .hero { padding: 180px 0 100px; }
         .hero-box {
             width: 90%; max-width: 1200px; margin: auto;
@@ -69,80 +75,66 @@
         .hero h1 { font-size: clamp(32px, 5vw, 56px); line-height: 1.2; text-transform: uppercase; }
         .hero span { color: var(--accent); }
         .hero p { margin: 25px 0; color: #dbe6ff; font-size: 18px; line-height: 1.6; }
-
-        .hero-img-container img {
-            width: 100%; max-width: 450px; animation: float 5s ease-in-out infinite;
-        }
-
+        .hero-img-container img { width: 100%; max-width: 450px; animation: float 5s ease-in-out infinite; border-radius: 20px; }
         @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-20px)} }
 
         /* ===== VISION & KAIZEN ===== */
         .section { padding: 80px 0; }
         .container { width: 90%; max-width: 1200px; margin: auto; }
         .title { text-align: center; margin-bottom: 50px; }
-        .title h2 { font-size: clamp(28px, 4vw, 44px); text-transform: uppercase; letter-spacing: 2px; }
+        .title h2 { font-size: clamp(28px, 4vw, 44px); text-transform: uppercase; }
         
-        .vision-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
-        .vision-card { 
-            background: rgba(255,255,255,0.05); 
-            padding: 40px; 
-            border-radius: 20px; 
-            border-top: 3px solid var(--accent);
-            text-align: center;
-        }
-        .vision-card h3 { color: var(--accent); margin-bottom: 15px; font-size: 24px; }
+        .vision-flex { display: flex; flex-wrap: wrap; gap: 30px; justify-content: center; }
+        .vision-card { flex: 1; min-width: 300px; background: rgba(255,255,255,0.05); padding: 40px; border-radius: 20px; border-top: 3px solid var(--accent); text-align: center; }
+        
+        .kaizen-box { text-align: center; margin-top: 40px; padding: 20px; }
+        .kaizen-box img { max-width: 100%; height: auto; border-radius: 15px; margin: 20px 0; }
 
-        .kaizen-box {
-            text-align: center;
-            margin-top: 60px;
-            background: rgba(255,255,255,0.03);
-            padding: 50px 20px;
-            border-radius: 30px;
-            border: 1px solid rgba(255,255,255,0.05);
+        /* ===== EXPERTISE GRID ===== */
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; }
+        .card { 
+            background: white; padding: 40px; border-radius: 22px; text-align: center; color: var(--navy); 
+            transition: 0.4s; display: flex; flex-direction: column; align-items: center;
         }
-        .kaizen-box img {
-            max-width: 100%;
-            width: 550px;
-            border-radius: 15px;
-            margin: 25px 0;
-            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.4));
-        }
-
-        /* ===== INITIATIVES GRID ===== */
-        .fields-grid {
-            display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
-            gap: 25px;
-        }
-        .card {
-            background: white; padding: 45px 35px; border-radius: 22px; text-align: center;
-            color: var(--navy); transition: 0.4s ease; display: flex; flex-direction: column; align-items: center;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
-        }
-        .card:hover { transform: translateY(-10px); box-shadow: 0 20px 45px rgba(127,179,255,0.3); }
+        .card:hover { transform: translateY(-10px); box-shadow: 0 15px 40px rgba(127,179,255,0.3); }
         .card i { font-size: 40px; margin-bottom: 20px; color: var(--navy-light); }
-        .card h4 { margin-bottom: 12px; font-weight: 700; font-size: 20px; }
-        .card p { font-size: 15px; color: #555; line-height: 1.5; margin-bottom: 25px; flex-grow: 1; }
-
-        .card a {
-            display: inline-block;
-            color: var(--navy-light);
-            font-weight: 700;
-            text-decoration: none;
-            border-bottom: 2px solid var(--accent);
-            transition: 0.3s;
-            padding-bottom: 2px;
-        }
-        .card a:hover { color: var(--accent); letter-spacing: 1px; }
+        .card h4 { margin-bottom: 15px; text-transform: uppercase; font-weight: 700; }
+        .card a { margin-top: 15px; font-weight: 700; color: var(--navy-light); text-decoration: none; border-bottom: 2px solid var(--accent); }
 
         /* ===== FOOTER ===== */
-        footer { background: #05132b; padding: 80px 0; text-align: center; border-top: 1px solid rgba(255,255,255,0.1); }
-        footer img { height: 70px; margin-bottom: 20px; }
-        footer p { color: #dbe6ff; font-size: 14px; line-height: 1.8; }
+        footer { background: #05132b; padding: 60px 0; text-align: center; border-top: 1px solid rgba(255,255,255,0.1); }
+        footer img { height: 60px; margin-bottom: 15px; }
+        .social-links { margin-top: 20px; display: flex; justify-content: center; gap: 25px; }
+        .social-links a { color: var(--white); font-size: 24px; transition: 0.3s; text-decoration: none; }
+        .social-links a:hover { color: var(--accent); transform: scale(1.1); }
+        .social-links span { font-size: 14px; display: block; margin-top: 5px; font-weight: 300; }
 
+        /* ===== MOBILE RESPONSIVE UPDATES ===== */
         @media(max-width:900px){
-            .hero-box, .vision-grid { grid-template-columns: 1fr; text-align: center; }
+            .hero-box { grid-template-columns: 1fr; text-align: center; }
             .hero-img-container { order: -1; }
+            .hero-img-container img { max-width: 280px; }
+
+            .nav-links { 
+                position: fixed; top: 0; left: -100%; width: 80%; height: 100vh; 
+                background: var(--navy); flex-direction: column; justify-content: center;
+                padding: 40px; transition: 0.4s ease-in-out; z-index: 1001;
+                box-shadow: 10px 0 30px rgba(0,0,0,0.5);
+            }
+            .nav-links.active { left: 0; }
+            .nav-links a { margin: 15px 0; font-size: 1.2rem; }
+            .btn-login { margin-left: 0; width: 100%; text-align: center; }
+            
+            .mobile-toggle { display: block; z-index: 1002; }
+            
+            .side-panel { width: 100%; }
+        }
+
+        @media(max-width: 480px) {
+            .hero { padding: 120px 0 60px; }
+            .hero h1 { font-size: 30px; }
+            .hero p { font-size: 16px; }
+            .vision-card { min-width: 100%; padding: 25px; }
         }
     </style>
 </head>
@@ -153,137 +145,201 @@
     <div class="navbar">
         <div class="logo">
             <img src="image/dwija-logo.png" alt="Dwija Logo">
-            DWIJA
+            ROBOTICS & SOFTWARE
         </div>
-        <div class="hamburger" onclick="toggleMenu()">
-            <i class="fa-solid fa-bars"></i>
-        </div>
-        <div class="nav-menu" id="navMenu">
-            <a href="#">Home</a>
-            <a href="#philosophy">Philosophy</a>
-            <a href="#fields">Operational Fields</a>
+        <div class="nav-links" id="navLinks">
+            <a href="index.html">Home</a>
+            <a href="#vision">Vision</a>
+            <a href="#services">Expertise</a>
             <a href="#contact">Contact</a>
+            <a href="login.html" id="loginBtn" class="btn-login">Login</a>
+            <div id="userProfileIcon" style="display:none; cursor:pointer; font-size:28px; color:var(--accent); margin-left:20px;" onclick="toggleSidebar()">
+                <i class="fa-solid fa-circle-user"></i>
+            </div>
+        </div>
+        <div class="mobile-toggle" onclick="toggleMobileNav()">
+            <i class="fa-solid fa-bars" id="menuIcon"></i>
         </div>
     </div>
 </header>
 
+<div id="sideAccountPanel" class="side-panel">
+    <div style="text-align: right;">
+        <i class="fa-solid fa-xmark" style="cursor:pointer; font-size:24px;" onclick="toggleSidebar()"></i>
+    </div>
+    <div class="user-details" style="margin-top:20px;">
+        <i class="fa-solid fa-circle-user"></i>
+        <h3 id="displayUserName" style="margin-top:10px;">Loading...</h3>
+        <p id="displayUserPhone">---</p>
+    </div>
+    <a href="set-profile.html" style="text-decoration:none; background:#f4f7ff; padding:12px; border-radius:10px; text-align:center; color:var(--navy); font-weight:600; margin-bottom: 10px;">Edit Profile</a>
+    <button class="logout-btn" id="logoutBtn" onclick="userLogout()">Logout</button>
+</div>
+
 <section class="hero">
     <div class="hero-box">
         <div class="hero-img-container">
-            <img src="image/akshaya-logo.png" alt="Founder Akshaya C P">
+            <img src="image/robo-img.jpeg" alt="Robotics Solution">
         </div>
         <div>
-            <h1>DWIJA <span>Problem Solving Platform</span></h1>
+            <h1>DWIJA <span>ROBOTICS & SOFTWARE</span></h1>
             <p>
-                A proprietary concern of <strong>Ms. Akshaya C P</strong>. Guided by a <strong>SMART</strong> vision and the <strong>Kaizen</strong> philosophy, we empower the next generation with intelligence, productivity, and happiness.
+                A premium initiative under the DWIJA ROBOTICS & SOFTWARE. Founded by <strong>Ms. Akshaya C P</strong>, we provide specialized robotics, AI, and automation solutions through the lens of continuous improvement.
             </p>
-            <a href="#fields" style="display:inline-block; background:white; color:var(--navy); padding:14px 35px; border-radius:30px; text-decoration:none; font-weight:700; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">Explore Initiatives</a>
+            <div style="display:flex; gap:15px; flex-wrap:wrap; justify-content: center;">
+                <a href="customized-robot.html" onclick="goToCustomize(event)" style="background:white; color:var(--navy); padding:14px 30px; border-radius:30px; text-decoration:none; font-weight:700;">Get your Customized Robots</a>
+                <a href="#vision" style="border:2px solid white; color:white; padding:14px 30px; border-radius:30px; text-decoration:none; font-weight:700;">Our Philosophy</a>
+            </div>
         </div>
     </div>
 </section>
 
-<section class="section" id="philosophy">
+<section class="section" id="vision">
     <div class="container">
-        <div class="title">
-            <h2>Our <span>Foundation</span></h2>
-        </div>
-        <div class="vision-grid">
+        <div class="title"><h2>Vision & <span>Mission</span></h2></div>
+        <div class="vision-flex">
             <div class="vision-card">
                 <h3>Our Vision</h3>
-                <p>To make people well understandable and knowledgeable by a problem solving approach.</p>
+                <p>To lead the world in accessible, intelligent robotics that solve complex human problems effortlessly.</p>
             </div>
             <div class="vision-card">
                 <h3>Our Mission</h3>
-                <p>Practically implementing problem solving approach in current relevant problems through innovation and continuous improvement.</p>
+                <p>Practically implementing high-performance AI and mechanical automation to make life smarter and more productive.</p>
             </div>
         </div>
-
-        <div class="kaizen-box">
+            
+       <div class="kaizen-box">
             <h3 style="color:var(--accent); text-transform:uppercase; letter-spacing:1px;">The Kaizen Strategy</h3>
             <img src="image/kaiz.jpg" alt="Kaizen Continuous Improvement Cycle">
             <p style="font-style:italic; color:#dbe6ff; max-width:700px; margin:auto;">
                 "Continuous improvement is not a destination, it is a journey. At DWIJA, we apply this cycle to every field we operate in."
             </p>
+            <p style="margin-top:15px; color:#dbe6ff; font-style:italic;">"Applying Kaizen to every circuit and line of code."</p>
         </div>
     </div>
 </section>
 
-<section class="section" id="fields">
+<section class="section" id="services">
     <div class="container">
-        <div class="title">
-            <h2>Operational <span>Fields</span></h2>
-        </div>
-
-        <div class="fields-grid">
+        <div class="title"><h2>Robotics <span>Expertise</span></h2></div>
+        <div class="grid">
             <div class="card">
                 <i class="fa-solid fa-robot"></i>
-                <h4>D-ROBOTICS</h4>
-                <p>Advanced AI and robotic automation designed to solve real-world industrial and domestic challenges.</p>
-                <a href="d-robotics.html">Visit D-ROBOTICS →</a>
+                <h4>Industrial Robots</h4>
+                <p>Custom-built automation systems for manufacturing and large-scale industrial efficiency.</p>
+                <a href="https://en.wikipedia.org/wiki/Industrial_robot">Learn More →</a>
             </div>
-
             <div class="card">
-                <i class="fa-solid fa-laptop-code"></i>
-                <h4>SOFTWARE</h4>
-                <p>Developing robust digital architectures and custom software applications for seamless efficiency.</p>
-                <a href="software.html">Visit Software →</a>
+                <i class="fa-solid fa-microchip"></i>
+                <h4>AI Integration</h4>
+                <p>Giving machines a brain with advanced neural networks and predictive logic systems.</p>
+                <a href="https://en.wikipedia.org/wiki/Artificial_intelligence_systems_integration">Learn More →</a>
             </div>
-
             <div class="card">
-                <i class="fa-solid fa-user-graduate"></i>
-                <h4>TRAINING</h4>
-                <p>Empowering minds with hands-on problem-solving workshops and specialized technical education.</p>
-                <a href="training.html">Visit Training →</a>
-            </div>
-
-            <div class="card">
-                <i class="fa-solid fa-chart-line"></i>
-                <h4>MANAGEMENT</h4>
-                <p>Optimizing organizational growth using SMART vision and strategic Kaizen-based planning.</p>
-                <a href="management.html">Visit Management →</a>
-            </div>
-
-            <div class="card">
-                <i class="fa-solid fa-calendar-star"></i>
-                <h4>EVENTS</h4>
-                <p>Organizing high-impact corporate exhibitions and technical product launches with precision.</p>
-                <a href="events.html">Visit Events →</a>
-            </div>
-
-            <div class="card">
-                <i class="fa-solid fa-brain"></i>
-                <h4>THERAPY</h4>
-                <p>Applying structured problem-solving methodologies to improve mental well-being and cognitive health.</p>
-                <a href="therapy.html">Visit Therapy →</a>
-            </div>
-
-            <div class="card">
-                <i class="fa-solid fa-film"></i>
-                <h4>FILM INDUSTRY</h4>
-                <p>Bringing systematic efficiency and advanced technology to the creative media production process.</p>
-                <a href="film.html">Visit Film Industry →</a>
+                <i class="fa-solid fa-graduation-cap"></i>
+                <h4>Robo-Training</h4>
+                <p>Specialized hands-on workshops for the next generation of robotics engineers.</p>
+                <a href="https://indianinstituteofrobotics.co.in/">Join Workshop →</a>
             </div>
         </div>
     </div>
 </section>
 
 <footer id="contact">
-    <div class="container">
-        <img src="image/akshaya-logo.png" alt="Akshaya Logo">
-        <p>
-            © 2025 <strong>DWIJA PROBLEM SOLVING PLATFORM</strong><br>
-            A Proprietary Ship Company of <strong>Ms. Akshaya C P</strong><br>
-            <em>Guided by Kaizen & SMART Vision</em>
-        </p>
+    <img src="image/akshaya-logo.png" alt="Akshaya Logo">
+    <p>© 2025 <strong>D-ROBOTICS</strong> by DWIJA<br>Founder & CEO: <strong>AKSHAYA</strong></p>
+    
+    <div class="social-links">
+        <a href="https://www.instagram.com/Dwija_robotics" target="_blank">
+            <i class="fa-brands fa-instagram"></i>
+            <span>Dwija_robotics</span>
+        </a>
+        <a href="https://www.linkedin.com/company/dwija-robotics" target="_blank">
+            <i class="fa-brands fa-linkedin"></i>
+            <span>LinkedIn</span>
+        </a>
     </div>
 </footer>
 
 <script>
-    function toggleMenu() {
-        const menu = document.getElementById('navMenu');
-        menu.classList.toggle('active');
-    }
-</script>
+    const SUPABASE_URL = "https://tvyllslbogeeaaqxywin.supabase.co";
+    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR2eWxsc2xib2dlZWFhcXh5d2luIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjY3MjcxOTQsImV4cCI6MjA4MjMwMzE5NH0.NvuBeCH5VSPQe88DRxohU0mRcRhV8u1_OsocIi8Vlsk";
+    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
+    function toggleMobileNav() {
+        const links = document.getElementById("navLinks");
+        const icon = document.getElementById("menuIcon");
+        
+        links.classList.toggle("active");
+        
+        if (links.classList.contains("active")) {
+            icon.classList.remove("fa-bars");
+            icon.classList.add("fa-xmark");
+            document.body.style.overflow = "hidden";
+        } else {
+            icon.classList.remove("fa-xmark");
+            icon.classList.add("fa-bars");
+            document.body.style.overflow = "auto";
+        }
+    }
+
+    document.querySelectorAll('.nav-links a').forEach(link => {
+        link.addEventListener('click', () => {
+            document.getElementById("navLinks").classList.remove("active");
+            document.getElementById("menuIcon").classList.replace("fa-xmark", "fa-bars");
+            document.body.style.overflow = "auto";
+        });
+    });
+
+    function toggleSidebar() {
+        document.getElementById("sideAccountPanel").classList.toggle("active");
+    }
+
+    async function checkAuthStatus() {
+        try {
+            const { data: { session } } = await supabaseClient.auth.getSession();
+            if (session) {
+                document.getElementById("loginBtn").style.display = "none";
+                document.getElementById("userProfileIcon").style.display = "block";
+                const { data: profile } = await supabaseClient.from('profiles').select('full_name, phone_number').eq('id', session.user.id).single();
+                if (profile) {
+                    document.getElementById("displayUserName").innerText = profile.full_name || "User";
+                    document.getElementById("displayUserPhone").innerText = profile.phone_number || "No Phone";
+                }
+            } else {
+                document.getElementById("loginBtn").style.display = "block";
+                document.getElementById("userProfileIcon").style.display = "none";
+            }
+        } catch (e) {
+            console.error("Auth check failed", e);
+        }
+    }
+
+    async function userLogout() {
+        const btn = document.getElementById("logoutBtn");
+        btn.disabled = true;
+        btn.innerText = "Logging out...";
+        
+        try {
+            const { error } = await supabaseClient.auth.signOut();
+            if (error) throw error;
+            
+            localStorage.clear();
+            window.location.href = "index.html"; 
+        } catch (error) {
+            console.error("Error logging out:", error.message);
+            localStorage.clear();
+            window.location.reload();
+        }
+    }
+
+    async function goToCustomize(event){
+        event.preventDefault(); 
+        const { data: { session } } = await supabaseClient.auth.getSession();
+        window.location.href = session ? "customized-robot.html" : "login.html";
+    }
+
+    checkAuthStatus();
+</script>
 </body>
 </html>
