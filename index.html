@@ -4,7 +4,8 @@
     <link rel="icon" type="image/png" href="image/dwija-logo.png">
     <link rel="icon" sizes="192x192" href="image/dwija-logo.png">
     <link rel="apple-touch-icon" href="image/dwija-logo.png">
-    <meta property="og:image" content="https://dwija.org/image/dwija-logo.png">
+    <meta property="og:image" content="image/dwija-logo.png">
+    
     <meta charset="UTF-8">
     <title>DWIJA – ROBOTICS & SOFTWARE</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -41,8 +42,8 @@
             display: flex; justify-content: space-between; align-items: center; padding: 15px 0;
         }
 
-        .logo { display: flex; align-items: center; gap: 10px; font-size: 22px; font-weight: 700; }
-        .logo img { height: 45px; }
+        .logo { display: flex; align-items: center; gap: 10px; font-size: 22px; font-weight: 700; text-decoration: none; color: white; }
+        .logo img { height: 45px; border-radius: 4px; }
 
         .nav-links { display: flex; align-items: center; }
         .nav-links a { margin-left: 22px; text-decoration: none; color: white; font-weight: 500; transition: 0.3s; }
@@ -103,18 +104,17 @@
 
         /* ===== FOOTER ===== */
         footer { background: #05132b; padding: 60px 0; text-align: center; border-top: 1px solid rgba(255,255,255,0.1); }
-        footer img { height: 60px; margin-bottom: 15px; }
+        footer .footer-logo { height: 60px; margin-bottom: 15px; border-radius: 5px; }
         .social-links { margin-top: 20px; display: flex; justify-content: center; gap: 25px; }
         .social-links a { color: var(--white); font-size: 24px; transition: 0.3s; text-decoration: none; }
         .social-links a:hover { color: var(--accent); transform: scale(1.1); }
         .social-links span { font-size: 14px; display: block; margin-top: 5px; font-weight: 300; }
 
-        /* ===== MOBILE RESPONSIVE UPDATES ===== */
+        /* ===== MOBILE RESPONSIVE ===== */
         @media(max-width:900px){
             .hero-box { grid-template-columns: 1fr; text-align: center; }
             .hero-img-container { order: -1; }
             .hero-img-container img { max-width: 280px; }
-
             .nav-links { 
                 position: fixed; top: 0; left: -100%; width: 80%; height: 100vh; 
                 background: var(--navy); flex-direction: column; justify-content: center;
@@ -124,17 +124,8 @@
             .nav-links.active { left: 0; }
             .nav-links a { margin: 15px 0; font-size: 1.2rem; }
             .btn-login { margin-left: 0; width: 100%; text-align: center; }
-            
             .mobile-toggle { display: block; z-index: 1002; }
-            
             .side-panel { width: 100%; }
-        }
-
-        @media(max-width: 480px) {
-            .hero { padding: 120px 0 60px; }
-            .hero h1 { font-size: 30px; }
-            .hero p { font-size: 16px; }
-            .vision-card { min-width: 100%; padding: 25px; }
         }
     </style>
 </head>
@@ -143,10 +134,10 @@
 
 <header>
     <div class="navbar">
-        <div class="logo">
+        <a href="index.html" class="logo">
             <img src="image/dwija-logo.png" alt="Dwija Logo">
             ROBOTICS & SOFTWARE
-        </div>
+        </a>
         <div class="nav-links" id="navLinks">
             <a href="index.html">Home</a>
             <a href="#vision">Vision</a>
@@ -186,8 +177,8 @@
             <p>
                 A premium initiative under the DWIJA ROBOTICS & SOFTWARE. Founded by <strong>Ms. Akshaya C P</strong>, we provide specialized robotics, AI, and automation solutions through the lens of continuous improvement.
             </p>
-            <div style="display:flex; gap:15px; flex-wrap:wrap; justify-content: center;">
-                <a href="customized-robot.html" onclick="goToCustomize(event)" style="background:white; color:var(--navy); padding:14px 30px; border-radius:30px; text-decoration:none; font-weight:700;">Get your Customized Robots</a>
+            <div style="display:flex; gap:15px; flex-wrap:wrap;">
+                <a href="customized-robot.html" onclick="goToCustomize(event)" style="background:white; color:var(--navy); padding:14px 30px; border-radius:30px; text-decoration:none; font-weight:700;">Get Customized Robots</a>
                 <a href="#vision" style="border:2px solid white; color:white; padding:14px 30px; border-radius:30px; text-decoration:none; font-weight:700;">Our Philosophy</a>
             </div>
         </div>
@@ -214,7 +205,6 @@
             <p style="font-style:italic; color:#dbe6ff; max-width:700px; margin:auto;">
                 "Continuous improvement is not a destination, it is a journey. At DWIJA, we apply this cycle to every field we operate in."
             </p>
-            <p style="margin-top:15px; color:#dbe6ff; font-style:italic;">"Applying Kaizen to every circuit and line of code."</p>
         </div>
     </div>
 </section>
@@ -227,34 +217,34 @@
                 <i class="fa-solid fa-robot"></i>
                 <h4>Industrial Robots</h4>
                 <p>Custom-built automation systems for manufacturing and large-scale industrial efficiency.</p>
-                <a href="https://en.wikipedia.org/wiki/Industrial_robot">Learn More →</a>
+                <a href="https://en.wikipedia.org/wiki/Industrial_robot" target="_blank">Learn More →</a>
             </div>
             <div class="card">
                 <i class="fa-solid fa-microchip"></i>
                 <h4>AI Integration</h4>
                 <p>Giving machines a brain with advanced neural networks and predictive logic systems.</p>
-                <a href="https://en.wikipedia.org/wiki/Artificial_intelligence_systems_integration">Learn More →</a>
+                <a href="https://en.wikipedia.org/wiki/Artificial_intelligence_systems_integration" target="_blank">Learn More →</a>
             </div>
             <div class="card">
                 <i class="fa-solid fa-graduation-cap"></i>
                 <h4>Robo-Training</h4>
                 <p>Specialized hands-on workshops for the next generation of robotics engineers.</p>
-                <a href="https://indianinstituteofrobotics.co.in/">Join Workshop →</a>
+                <a href="https://indianinstituteofrobotics.co.in/" target="_blank">Join Workshop →</a>
             </div>
         </div>
     </div>
 </section>
 
 <footer id="contact">
-    <img src="image/akshaya-logo.png" alt="Akshaya Logo">
+    <img src="image/dwija-logo.png" alt="Dwija Logo" class="footer-logo">
     <p>© 2025 <strong>D-ROBOTICS</strong> by DWIJA<br>Founder & CEO: <strong>AKSHAYA</strong></p>
     
     <div class="social-links">
-        <a href="https://www.instagram.com/_d_w_i_j_a?igsh=MTc2Y2JuZzB0emloaA==" target="_blank">
+        <a href="https://www.instagram.com/_d_w_i_j_a" target="_blank">
             <i class="fa-brands fa-instagram"></i>
-            <span>Dwija</span>
+            <span>Instagram</span>
         </a>
-        <a href="https://www.linkedin.com/in/akshaya-c-p-2ab3193a8?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank">
+        <a href="https://www.linkedin.com/in/akshaya-c-p-2ab3193a8" target="_blank">
             <i class="fa-brands fa-linkedin"></i>
             <span>LinkedIn</span>
         </a>
@@ -262,6 +252,7 @@
 </footer>
 
 <script>
+    // Supabase Configuration
     const SUPABASE_URL = "https://tvyllslbogeeaaqxywin.supabase.co";
     const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR2eWxsc2xib2dlZWFhcXh5d2luIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjY3MjcxOTQsImV4cCI6MjA4MjMwMzE5NH0.NvuBeCH5VSPQe88DRxohU0mRcRhV8u1_OsocIi8Vlsk";
     const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
@@ -269,27 +260,11 @@
     function toggleMobileNav() {
         const links = document.getElementById("navLinks");
         const icon = document.getElementById("menuIcon");
-        
         links.classList.toggle("active");
-        
-        if (links.classList.contains("active")) {
-            icon.classList.remove("fa-bars");
-            icon.classList.add("fa-xmark");
-            document.body.style.overflow = "hidden";
-        } else {
-            icon.classList.remove("fa-xmark");
-            icon.classList.add("fa-bars");
-            document.body.style.overflow = "auto";
-        }
+        icon.classList.toggle("fa-bars");
+        icon.classList.toggle("fa-xmark");
+        document.body.style.overflow = links.classList.contains("active") ? "hidden" : "auto";
     }
-
-    document.querySelectorAll('.nav-links a').forEach(link => {
-        link.addEventListener('click', () => {
-            document.getElementById("navLinks").classList.remove("active");
-            document.getElementById("menuIcon").classList.replace("fa-xmark", "fa-bars");
-            document.body.style.overflow = "auto";
-        });
-    });
 
     function toggleSidebar() {
         document.getElementById("sideAccountPanel").classList.toggle("active");
@@ -306,31 +281,16 @@
                     document.getElementById("displayUserName").innerText = profile.full_name || "User";
                     document.getElementById("displayUserPhone").innerText = profile.phone_number || "No Phone";
                 }
-            } else {
-                document.getElementById("loginBtn").style.display = "block";
-                document.getElementById("userProfileIcon").style.display = "none";
             }
-        } catch (e) {
-            console.error("Auth check failed", e);
-        }
+        } catch (e) { console.error("Auth check failed", e); }
     }
 
     async function userLogout() {
         const btn = document.getElementById("logoutBtn");
-        btn.disabled = true;
-        btn.innerText = "Logging out...";
-        
-        try {
-            const { error } = await supabaseClient.auth.signOut();
-            if (error) throw error;
-            
-            localStorage.clear();
-            window.location.href = "index.html"; 
-        } catch (error) {
-            console.error("Error logging out:", error.message);
-            localStorage.clear();
-            window.location.reload();
-        }
+        btn.disabled = true; btn.innerText = "Logging out...";
+        await supabaseClient.auth.signOut();
+        localStorage.clear();
+        window.location.reload();
     }
 
     async function goToCustomize(event){
