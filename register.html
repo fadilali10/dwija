@@ -54,7 +54,14 @@
             position: relative;
         }
 
-        .register-card img{ height:60px; margin-bottom:10px; }
+        /* INCREASED LOGO SIZE */
+        .register-card img{ 
+            height: 90px; 
+            width: auto;
+            margin-bottom: 15px; 
+            transition: 0.3s;
+        }
+
         .register-card h2{ margin-bottom:5px; font-weight: 700; }
         .register-card p.subtitle { color: #666; font-size: 14px; margin-bottom: 25px; }
 
@@ -88,6 +95,7 @@
         @media (max-width: 480px) {
             body { padding: 80px 15px 40px; }
             .register-card { padding: 30px 20px; }
+            .register-card img { height: 70px; } /* Scaled for mobile */
             .register-card h2 { font-size: 22px; }
             .home-btn { top: 15px; left: 15px; width: 40px; height: 40px; }
         }
@@ -153,7 +161,6 @@ document.addEventListener("DOMContentLoaded", () => {
         const email = document.getElementById("email").value.trim();
         const password = document.getElementById("password").value;
 
-        // Basic Validation
         if(!name || !phone || !email || !password){
             alert("Please fill in all fields.");
             return;
@@ -170,7 +177,6 @@ document.addEventListener("DOMContentLoaded", () => {
         setButtonLoading(true);
 
         try {
-            // 1. Sign up user in Supabase Auth
             const { data: authData, error: authError } = await supabaseClient.auth.signUp({
                 email: email,
                 password: password,
@@ -180,7 +186,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const user = authData.user;
             
-            // 2. Insert extra details into the profiles table
             if (user) {
                 const { error: profileError } = await supabaseClient
                     .from("profiles")

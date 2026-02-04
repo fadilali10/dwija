@@ -25,9 +25,14 @@
 
         /* ===== NAVBAR ===== */
         header{ background:rgba(10,42,102,0.95); position: sticky; top: 0; z-index: 1000; border-bottom: 1px solid rgba(255,255,255,0.1); }
-        .navbar{ width:90%; max-width: 1200px; margin:auto; padding:12px 0; display:flex; justify-content:space-between; align-items:center; }
-        .logo{ display:flex; align-items:center; gap:10px; font-size:18px; font-weight:700; }
-        .logo img{ height:38px }
+        
+        /* Adjusted padding for larger logo */
+        .navbar{ width:90%; max-width: 1200px; margin:auto; padding:10px 0; display:flex; justify-content:space-between; align-items:center; }
+        
+        .logo{ display:flex; align-items:center; gap:15px; font-size:24px; font-weight:700; }
+        
+        /* INCREASED LOGO SIZE HERE */
+        .logo img{ height:70px; width: auto; border-radius: 4px; transition: 0.3s; }
 
         .nav-actions { display: flex; align-items: center; gap: 10px; }
         .nav-actions a, .nav-actions button{
@@ -66,13 +71,23 @@
             background: white; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
             padding: 35px; border-radius: 25px; width: 90%; max-width: 400px; text-align: center; color: var(--blue); 
         }
+
+        /* ===== MOBILE RESPONSIVE ===== */
+        @media(max-width:600px){
+            .logo { font-size: 18px; gap: 10px; }
+            .logo img { height: 50px; } /* Scale down for mobile devices */
+            .navbar { padding: 15px 0; }
+        }
     </style>
 </head>
 <body>
 
     <header>
         <div class="navbar">
-            <div class="logo"><img src="image/dwija-logo.png" alt="Logo"> <span>D-ROBOTICS</span></div>
+            <div class="logo">
+                <img src="image/dwija-logo.png" alt="Logo"> 
+                <span>D-ROBOTICS</span>
+            </div>
             <div class="nav-actions">
                 <a href="index.html">Home</a>
                 <span id="authArea"><a href="login.html">Login</a></span>

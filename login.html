@@ -2,12 +2,9 @@
 <html lang="en">
 <head>
     <link rel="icon" type="image/png" href="image/dwija-logo.png">
-
-<link rel="icon" sizes="192x192" href="image/dwija-logo.png">
-
-<link rel="apple-touch-icon" href="image/dwija-logo.png">
-
-<meta property="og:image" content="https://dwija.org/image/dwija-logo.png">
+    <link rel="icon" sizes="192x192" href="image/dwija-logo.png">
+    <link rel="apple-touch-icon" href="image/dwija-logo.png">
+    <meta property="og:image" content="https://dwija.org/image/dwija-logo.png">
     <meta charset="UTF-8">
     <title>D-ROBOTICS | Login</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -29,7 +26,7 @@
             background-size:cover;
             background-position:center;
             background-attachment:fixed;
-            padding: 20px; /* Prevents card from touching screen edges on mobile */
+            padding: 20px;
         }
 
         /* Responsive Home Button */
@@ -59,7 +56,14 @@
             position: relative;
         }
 
-        .login-card img{ height:65px; margin-bottom:15px; }
+        /* INCREASED LOGO SIZE */
+        .login-card img{ 
+            height: 90px; 
+            width: auto;
+            margin-bottom: 20px; 
+            transition: 0.3s;
+        }
+
         .login-card h2{ margin-bottom:8px; font-weight: 700; color: var(--navy); }
         .login-card p.subtitle { color: #666; font-size: 14px; margin-bottom: 25px; }
 
@@ -89,9 +93,9 @@
         .footer-text a { color:var(--navy); font-weight: 600; text-decoration: none; }
         .footer-text a:hover { text-decoration: underline; }
 
-        /* Mobile specific adjustments */
         @media (max-width: 480px) {
             .login-card { padding: 30px 20px; }
+            .login-card img { height: 75px; } /* Slightly smaller for mobile screens */
             .login-card h2 { font-size: 22px; }
             .home-btn { top: 15px; left: 15px; width: 40px; height: 40px; font-size: 16px; }
         }
